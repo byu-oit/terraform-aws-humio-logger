@@ -1,18 +1,18 @@
 const zlib = require('zlib')
 const https = require('https')
 
-function sendLogEventToHumio (logEvent) {
+function sendLogEventsToHumio (logEvents) {
   const data = JSON.stringify([{
     tags: {
       SubIdxNM: process.env.SUB_IDX_NM
     },
-    events: [
-      {
-        timestamp: logEvent.timestamp,
+    events: logEvents.map(event => {
+      return {
+        timestamp: event.timestamp,
         timezone: 'America/Denver',
-        attributes: JSON.parse(logEvent.message)
+        attributes: JSON.parse(event.message)
       }
-    ]
+    })
   }])
 
   const options = {
@@ -54,11 +54,6 @@ exports.handler = async function (event) {
   zlib.gunzip(payload, function (e, decodedEvent) {
     console.debug('Decoded event: ' + decodedEvent)
     decodedEvent = JSON.parse(decodedEvent.toString('ascii'))
-    const humioPromises = []
-    for (const logEvent of decodedEvent.logEvents) {
-      humioPromises.push(sendLogEventToHumio(logEvent))
-    }
-
-    return Promise.all(humioPromises)
+    return sendLogEventsToHumio(decodedEvent.logEvents)
   })
 }
