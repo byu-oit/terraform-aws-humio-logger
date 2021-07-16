@@ -38,3 +38,4 @@ module "humio_logger" {
 
 * Add KMS integration to support encrypted CloudWatch logs
 * Translate non-JSON logs for Humio
+* Use global SSM param
