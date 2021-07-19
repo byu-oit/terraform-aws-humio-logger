@@ -60,3 +60,4 @@ same even if duplicate Lambdas are made in each account for a different applicat
   EventBridge rules that trigger the Lambda and inject the SubIdxNM for the application.
 * Upgrade Lambda to support [unstructured data](https://docs.humio.com/reference/api/ingest/#parser)
 * Filter log events using CloudWatch Subscription Filters
+* Retry if HTTP request to Humio fails
