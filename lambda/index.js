@@ -14,6 +14,7 @@ function sendLogEventsToHumio (logEvents) {
       }
     })
   }])
+  console.info('Sending data.', data)
 
   const options = {
     hostname: (process.env.ENV === 'prd') ? 'oit-humio.byu.edu' : 'oit-humio-dev.byu.edu',

@@ -59,3 +59,4 @@ same even if duplicate Lambdas are made in each account for a different applicat
 * Consolidate duplicate Lambdas into a single function in ACS. Then change this module to crete Lambda triggers or 
   EventBridge rules that trigger the Lambda and inject the SubIdxNM for the application.
 * Upgrade Lambda to support [unstructured data](https://docs.humio.com/reference/api/ingest/#parser)
+* Filter log events using CloudWatch Subscription Filters
