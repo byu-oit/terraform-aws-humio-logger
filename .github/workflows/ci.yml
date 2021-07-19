@@ -49,10 +49,6 @@ jobs:
         working-directory: ${{ env.tf_working_dir }}
         run: terraform init
 
-      - name: Create CloudWatch group
-        working-directory: ${{ env.tf_working_dir }}
-        run: terraform apply -target=aws_cloudwatch_log_group.humio_logger -auto-approve
-
       - name: Terraform Plan
         working-directory: ${{ env.tf_working_dir }}
         run: terraform plan.tfplan -input=false -out=plan.tfplan
@@ -71,7 +67,3 @@ jobs:
           divvycloud-password: ${{ secrets.DIVVYCLOUD_PASSWORD }}
           working-directory: ${{ env.tf_working_dir }}
           terraform-plan-file: plan.tfplan
-
-      - name: Cleanup CloudWatch group
-        working-directory: ${{ env.tf_working_dir }}
-        run: terraform destroy -auto-approve
