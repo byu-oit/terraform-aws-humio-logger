@@ -18,7 +18,7 @@ jobs:
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_version: '1.0.x'
+          terraform_version: '0.15.x'
 
       - name: Terraform Format
         working-directory: "./"
@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['1.0.x']
+        terraform: ['0.12.x', '0.13.x', '0.14.x', '0.15.x', '1.0.x']
     steps:
       - uses: actions/checkout@v2
 
