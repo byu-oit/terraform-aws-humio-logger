@@ -14,8 +14,6 @@ provider "aws" {
 }
 
 module "ci_test" {
-  depends_on = [aws_cloudwatch_log_group.humio_logger]
-
   source                    = "../../"
   app_env                   = "dev"
   app_name                  = "humio-logger-ci"
