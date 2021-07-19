@@ -65,6 +65,6 @@ variable "tags" {
 }
 
 variable "vpn_vpc_id" {
-  type = string
+  type        = string
   description = "The ID of the VPC with a VPN back to campus."
 }
