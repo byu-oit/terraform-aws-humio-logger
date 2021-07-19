@@ -22,6 +22,24 @@ module "humio_logger" {
   vpn_vpc_id                = module.acs_vpn.vpc.id
 }
 ```
+
+### Limitations
+
+Because of [limitations with Terraform](https://www.terraform.io/docs/language/meta-arguments/for_each.html#limitations-on-values-used-in-for_each),
+add this module after the initial deployment of your application to a new environment. Otherwise, you'll get an error 
+similar to this:
+
+```bash
+Error: Invalid for_each argument
+  on ../../main.tf line 75, in resource "aws_lambda_permission" "logging":
+  75:   for_each      = var.log_group_arns
+
+The "for_each" value depends on resource attributes that cannot be determined
+until apply, so Terraform cannot predict how many instances will be created.
+To work around this, use the -target argument to first apply only the
+resources that the for_each depends on.
+```
+
 ## Requirements
 
 * Terraform version 0.14.11 or greater
