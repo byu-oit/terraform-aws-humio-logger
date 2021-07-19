@@ -24,7 +24,7 @@ module "humio_logger" {
 ```
 ## Requirements
 
-* Terraform version 0.12.31 or greater
+* Terraform version 0.14.11 or greater
 * AWS provider version 3.0 or greater
 
 ## Inputs
