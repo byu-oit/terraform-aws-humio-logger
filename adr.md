@@ -54,6 +54,7 @@ same even if duplicate Lambdas are made in each account for a different applicat
 
 ## Roadmap
 
+* Add KMS integration to support encrypted CloudWatch logs
 * Add a global SSM parameter in ACS that includes a Humio connection string
 * Consolidate duplicate Lambdas into a single function in ACS. Then change this module to crete Lambda triggers or 
   EventBridge rules that trigger the Lambda and inject the SubIdxNM for the application.

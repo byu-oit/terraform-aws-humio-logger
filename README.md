@@ -28,15 +28,3 @@ module "humio_logger" {
 | Name | Type | Description |
 | ---  | ---  | --- |
 | | | |
-
-## Assumptions
-
-* CloudWatch logs are JSON formatted
-* Logs are not encrypted
-
-## TODO
-
-* Add KMS integration to support encrypted CloudWatch logs
-* Translate non-JSON logs for Humio
-* Use global SSM param
-* Add ADR and roadmap
