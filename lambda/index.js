@@ -45,13 +45,17 @@ function sendLogEventsToHumio (logEvents) {
   })
 }
 
-exports.handler = async function (event) {
+exports.handler = async function (event, context) {
   console.debug('Event: ' + JSON.stringify(event, null, 2))
 
   const payload = new Buffer.from(event.awslogs.data, 'base64')
   zlib.gunzip(payload, function (e, decodedEvent) {
-    console.debug('Decoded event: ' + decodedEvent)
-    decodedEvent = JSON.parse(decodedEvent.toString('ascii'))
-    return sendLogEventsToHumio(decodedEvent.logEvents)
+    if (e) {
+      context.fail(e)
+    } else {
+      console.debug('Decoded event: ' + decodedEvent)
+      decodedEvent = JSON.parse(decodedEvent.toString('ascii'))
+      return sendLogEventsToHumio(decodedEvent.logEvents)
+    }
   })
 }
