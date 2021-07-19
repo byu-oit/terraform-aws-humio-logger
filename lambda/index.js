@@ -10,7 +10,7 @@ function sendLogEventsToHumio (logEvents) {
       return {
         timestamp: event.timestamp,
         timezone: 'America/Denver',
-        attributes: JSON.parse(event.message)
+        attributes: event.message
       }
     })
   }])
