@@ -6,10 +6,12 @@ function sendLogEventsToHumio (logEvents) {
     tags: {
       SubIdxNM: process.env.SUB_IDX_NM
     },
-    events: logEvents.map(event => ({
-      timestamp: event.timestamp,
-      timezone: 'America/Denver',
-      attributes: JSON.parse(event.message)
+    events: logEvents.map(event => {
+      return {
+        timestamp: event.timestamp,
+        timezone: 'America/Denver',
+        attributes: JSON.parse(event.message)
+      }
     })
   }])
 
