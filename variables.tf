@@ -1,11 +1,11 @@
-variable "app_name" {
-  type        = string
-  description = "The application name to include in the name of resources created."
-}
-
 variable "app_env" {
   type        = string
   description = "The environment of the application. Used to determine what instance of Humio to send log data to."
+}
+
+variable "app_name" {
+  type        = string
+  description = "The application name to include in the name of resources created."
 }
 
 // TODO Move to ACS as SSM parameter
@@ -25,10 +25,26 @@ variable "log_group_names" {
   description = "The names of the CloudWatch log groups that should be forwarded to Humio."
 }
 
+variable "log_retention_in_days" {
+  type        = number
+  description = "The number of days to retain logs for the logs-to-humio Lambda."
+  default     = 7
+}
+
 variable "memory_size" {
   type        = number
   description = "The amount of memory for the function."
   default     = 128
+}
+
+variable "private_vpn_subnet_ids" {
+  type        = list(string)
+  description = "A list of subnet IDs in the private subnet of the VPN VPC."
+}
+
+variable "role_permissions_boundary" {
+  type        = string
+  description = "The ARN of the role permissions boundary to attach to the Lambda role."
 }
 
 variable "sub_idx_nm" {
@@ -46,4 +62,9 @@ variable "tags" {
   type        = map(string)
   description = "A map of AWS Tags to attach to each resource created."
   default     = {}
+}
+
+variable "vpn_vpc_id" {
+  type = string
+  description = "The ID of the VPC with a VPN back to campus."
 }

@@ -2,17 +2,19 @@ const zlib = require('zlib')
 const https = require('https')
 
 function sendLogEventsToHumio (logEvents) {
+  const events = logEvents.map(event => {
+    const attributes = JSON.parse(event.message) // Parsing so we don't stringify it twice.
+    return {
+      timestamp: event.timestamp,
+      timezone: 'America/Denver',
+      attributes
+    }
+  })
   const data = JSON.stringify([{
     tags: {
       SubIdxNM: process.env.SUB_IDX_NM
     },
-    events: logEvents.map(event => {
-      return {
-        timestamp: event.timestamp,
-        timezone: 'America/Denver',
-        attributes: event.message
-      }
-    })
+    events
   }])
   console.info('Sending data.', data)
 
@@ -33,6 +35,7 @@ function sendLogEventsToHumio (logEvents) {
       if (res.statusCode >= 400) {
         reject(new Error(`[Humio API Error] ${res.statusCode} - ${res.statusMessage}`))
       } else {
+        console.log('Send logs successful. Code: ', res.statusCode)
         resolve()
       }
     })
@@ -48,17 +51,21 @@ function sendLogEventsToHumio (logEvents) {
   })
 }
 
-exports.handler = async function (event, context) {
+exports.handler = function (event, context) {
   console.debug('Event: ' + JSON.stringify(event, null, 2))
 
   const payload = new Buffer.from(event.awslogs.data, 'base64')
-  zlib.gunzip(payload, function (e, decodedEvent) {
-    if (e) {
+  return zlib.gunzip(payload, function (e, decodedEvent) {
+    if (e !== null) {
+      console.error(e)
       context.fail(e)
     } else {
       console.debug('Decoded event: ' + decodedEvent)
       decodedEvent = JSON.parse(decodedEvent.toString('ascii'))
-      return sendLogEventsToHumio(decodedEvent.logEvents)
+      sendLogEventsToHumio(decodedEvent.logEvents).catch(e => {
+        console.error(e)
+        context.fail(e)
+      })
     }
   })
 }
