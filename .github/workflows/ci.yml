@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['0.12.x', '0.13.x', '0.14.x', '0.15.x']
+        terraform: ['0.14.x', '0.15.x', '1.0.x']
     steps:
       - uses: actions/checkout@v2
 
