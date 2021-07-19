@@ -7,7 +7,10 @@ function sendLogEventsToHumio (logEvents) {
     return {
       timestamp: event.timestamp,
       timezone: 'America/Denver',
-      attributes
+      attributes: {
+        ...attributes,
+        SubIdxNM: process.env.SUB_IDX_NM
+      }
     }
   })
   const data = JSON.stringify([{

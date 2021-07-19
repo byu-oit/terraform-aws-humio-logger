@@ -10,10 +10,12 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-west-2"
+  region = "us-west-2"
 }
 
 module "ci_test" {
+  depends_on = [aws_cloudwatch_log_group.humio_logger]
+
   source                    = "../../"
   app_env                   = "dev"
   app_name                  = "humio-logger-dev"
