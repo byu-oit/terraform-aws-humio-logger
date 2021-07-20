@@ -8,6 +8,15 @@ Infrastructure to watch a CloudWatch log group and forward its logs to Humio.
 
 ## Usage
 
+### Prerequisites
+
+Before including this module in your project, be sure to communicate with the Platform Engineer over Humio (currently 
+Carson Mills) so that he can keep an updated list of the various data streams coming into Humio and who is responsible 
+for them. He will also need to update filters on views to include the new SubIdxNM values so that data will be visible 
+to you.
+
+### Example
+
 ```hcl
 module "humio_logger" {
   source = "github.com/byu-oit/terraform-aws-humio-logger?ref=v1.0.0"
