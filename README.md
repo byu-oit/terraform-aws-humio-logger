@@ -13,7 +13,7 @@ module "humio_logger" {
   source = "github.com/byu-oit/terraform-aws-humio-logger?ref=v1.0.0"
   app_env                   = "dev"
   app_name                  = "humio-logger-ci"
-  humio_ingest_token        = "4788f2d0-b72d-484d-944d-830aba612207"
+  humio_ingest_token        = "4788f2d0-b72d-484d-944d-830aba612207" // This isn't a real token
   log_group_arns            = [aws_cloudwatch_log_group.humio_logger.arn]
   log_group_names           = [aws_cloudwatch_log_group.humio_logger.name]
   private_vpn_subnet_ids    = module.acs_vpn.private_subnet_ids
