@@ -24,7 +24,8 @@ module "humio_logger" {
 }
 
 resource "aws_cloudwatch_log_group" "humio_logger" {
-  name = "humio-logger-ci-logs"
+  name              = "humio-logger-ci-logs"
+  retention_in_days = 7
 }
 
 module "acs_vpn" {
