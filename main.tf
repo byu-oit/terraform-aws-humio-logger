@@ -5,15 +5,20 @@ terraform {
   }
 }
 
+locals {
+  filename = "${path.module}/lambda/function.zip"
+}
+
 resource "aws_lambda_function" "logging" {
-  function_name = "${var.app_name}-logs-to-humio"
-  filename      = "${path.module}/lambda/function.zip"
-  handler       = "index.handler"
-  runtime       = "nodejs14.x"
-  role          = aws_iam_role.logging.arn
-  timeout       = var.timeout
-  memory_size   = var.memory_size
-  tags          = var.tags
+  function_name    = "${var.app_name}-logs-to-humio"
+  filename         = local.filename
+  handler          = "index.handler"
+  runtime          = "nodejs14.x"
+  role             = aws_iam_role.logging.arn
+  source_code_hash = filebase64sha256(local.filename)
+  timeout          = var.timeout
+  memory_size      = var.memory_size
+  tags             = var.tags
 
   environment {
     variables = {
