@@ -8,4 +8,4 @@ updates:
       interval: weekly
     target-branch: main
     reviewers:
-      - blakemorgan
+      - Gi60s
