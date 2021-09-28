@@ -2,17 +2,29 @@ const zlib = require('zlib')
 const https = require('https')
 
 function sendLogEventsToHumio (logEvents) {
-  const events = logEvents.map(event => {
-    const attributes = JSON.parse(event.message) // Parsing so we don't stringify it twice.
-    return {
-      timestamp: event.timestamp,
-      timezone: 'America/Denver',
-      attributes: {
-        ...attributes,
-        SubIdxNM: process.env.SUB_IDX_NM
+  const events = logEvents
+    .map(event => {
+      try {
+        const attributes = JSON.parse(event.message) // Parsing so we don't stringify it twice.
+        return {
+          timestamp: event.timestamp,
+          timezone: 'America/Denver',
+          attributes: {
+            ...attributes,
+            SubIdxNM: process.env.SUB_IDX_NM
+          }
+        }
+      } catch(e) {
+        console.info('Could not parse JSON', e)
       }
-    }
-  })
+      return null
+    })
+    .filter(val => !!val)
+
+  if (!events.length) {
+    throw Error("No JSON-parseable events")
+  }
+
   const data = JSON.stringify([{
     tags: {
       SubIdxNM: process.env.SUB_IDX_NM
