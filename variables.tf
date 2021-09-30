@@ -68,3 +68,9 @@ variable "vpn_vpc_id" {
   type        = string
   description = "The ID of the VPC with a VPN back to campus."
 }
+
+variable "filter_pattern" {
+  type        = string
+  description = "(Optional) A valid CloudWatch Logs filter pattern for subscribing to a filtered stream of log events"
+  default     = ""
+}

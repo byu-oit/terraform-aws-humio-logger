@@ -88,7 +88,7 @@ resource "aws_cloudwatch_log_subscription_filter" "logging" {
   for_each        = var.log_group_names
   depends_on      = [aws_lambda_permission.logging]
   destination_arn = aws_lambda_function.logging.arn
-  filter_pattern  = ""
+  filter_pattern  = var.filter_pattern
   log_group_name  = each.key
   name            = "logging_default"
 }

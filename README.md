@@ -69,6 +69,7 @@ resources that the for_each depends on.
 | sub_idx_nm | string | The SubIdxNM for the application in Humio. |
 | timeout | number | The amount of time the function is allowed to run. | 30 |
 | tags | map(string) | A map of AWS Tags to attach to each resource created. | {} |
+| filter_pattern | string | A valid CloudWatch Logs filter pattern for subscribing to a filtered stream of log events. | "" |
 
 ## Outputs
 
