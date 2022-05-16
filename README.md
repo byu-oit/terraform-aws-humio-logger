@@ -20,15 +20,18 @@ to you.
 ```hcl
 module "humio_logger" {
   source = "github.com/byu-oit/terraform-aws-humio-logger?ref=v1.0.0"
-  app_env                   = "dev"
-  app_name                  = "humio-logger-ci"
-  humio_ingest_token        = "4788f2d0-b72d-484d-944d-830aba612207" // This isn't a real token
-  log_group_arns            = [aws_cloudwatch_log_group.humio_logger.arn]
-  log_group_names           = [aws_cloudwatch_log_group.humio_logger.name]
-  private_vpn_subnet_ids    = module.acs_vpn.private_subnet_ids
-  role_permissions_boundary = module.acs_vpn.role_permissions_boundary.arn
-  sub_idx_nm                = "payments"
-  vpn_vpc_id                = module.acs_vpn.vpc.id
+  app_env                                     = "dev"
+  app_name                                    = "humio-logger-ci"
+  humio_host                                  = "oit-humio.byu.edu" // module.acs_vpn.private_subnet_ids
+  humio_ingest_token                          = module.acs.humio.prd.token 
+  humio_lambda_log_retention                  = 7
+  enable_cloudwatch_logs_auto_subscription    = false
+  humio_cloudwatch_logs_subscription_prefix   = "/humio-logger-ci/dev"
+  enable_cloudwatch_logs_backfiller_autorun   = false
+  enable_vpc_for_ingester_lambdas             = true
+  security_group_ids                          = module.acs.vpc.id     // TODO: better example
+  subnet_ids                                  = module.acs.asd        // TODO: better example
+  humio_lambda_log_level                      = "ERROR"
 }
 ```
 
