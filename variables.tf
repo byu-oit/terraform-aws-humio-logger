@@ -72,7 +72,7 @@ variable "humio_lambda_log_level" {
   description = "The log level for the Humio lambdas."
   validation {
     condition = contains(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], var.humio_lambda_log_level)
-    error_message = "Must be one of ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']"
+    error_message = "Must be one of ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']."
   }
   default = "INFO"
 }

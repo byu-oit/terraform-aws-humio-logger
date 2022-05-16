@@ -74,9 +74,21 @@ resources that the for_each depends on.
 
 ## Outputs
 
-| Name          | Type   | Description                             |
-|---------------|--------|-----------------------------------------|
-| function_name | string | The name of the logs-to-Humio function. |
+| Name                                      | Type               | Description                                                                                                                                     |
+|-------------------------------------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| app_env                                   | string             | The environment of the application. Used to determine what instance of Humio to send log data to.                                               |
+| app_name                                  | string             | The application name to include in the name of resources created.                                                                               |
+| humio_protocol                            | string             | The transport protocol used for delivering log/metric events to Humio. HTTPS is default and recommended.                                        |
+| humio_host                                | string             | The host to ship Humio log/metric events to.                                                                                                    | 
+| humio_ingest_token                        | string (sensitive) | The ingest token for Humio logs.                                                                                                                | 
+| humio_lambda_log_retention                | number             | Number of days to retain CloudWatch logs from the Humio Lambda functions.                                                                       |
+| enable_cloudwatch_logs_auto_subscription  | bool               | Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'true' to enable. |
+| humio_cloudwatch_logs_subscription_prefix | string             | Humio will only subscribe to log groups with the prefix specified.                                                                              |
+| enable_cloudwatch_logs_backfiller_autorun | bool               | Make the backfiller run automatically when created. Set to 'true' to enable.                                                                    |
+| enable_vpc_for_ingester_lambdas           | bool               | Use a VPC for the lambda ingester functions. Set to 'true' to enable.                                                                           |
+| security_group_ids                        | list(string)       | A list of security group ids for the VPC configuration regarding the ingester lambda functions. Only required if VPC is enabled.                | 
+| subnet_ids                                | list(string)       | A list of subnet ids used by the VPC configuration that the ingester lambda functions will be deployed into. Only required if VPC is enabled.   |
+| humio_lambda_log_level                    | string             | The log level for the Humio lambdas. (DEBUG, INFO, WARNING, ERROR, CRITICAL)                                                                    |
 
 ## Deployment
 
