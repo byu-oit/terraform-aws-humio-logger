@@ -80,3 +80,10 @@ resources that the for_each depends on.
 ## Deployment
 
 If you update the Lambda function code, be sure to run `zip -r function.zip .` in the `lambda` folder.
+
+## Development
+
+To update to the latest bundle of Cloudwatch2Humio:
+1. Clone the git repository: [https://github.com/humio/cloudwatch2humio](https://github.com/humio/cloudwatch2humio)
+4. Copy the `$PROJECT/cloudformation.json` file to this project replacing the old cloudformation template.
+5. Ensure that the necessary refactors are implemented in terraform.
