@@ -44,7 +44,7 @@
         "false"
       ],
       "Description" : "Make the backfiller run automatically when created. Set to 'true' to enable.",
-      "Default" : "true"
+      "Default" : "false"
     },
     "EnableVPCForIngesterLambdas" : {
       "Type" : "String",

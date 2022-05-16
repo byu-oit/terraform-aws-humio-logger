@@ -34,7 +34,7 @@ variable "humio_lambda_log_retention" {
 variable "enable_cloudwatch_logs_auto_subscription" {
   type = bool
   description = "Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'true' to enable."
-  default = true
+  default = false
 }
 
 variable "humio_cloudwatch_logs_subscription_prefix" {
