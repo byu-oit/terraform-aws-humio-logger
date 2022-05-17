@@ -19,7 +19,7 @@ to you.
 
 ```hcl
 module "humio_logger" {
-  source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=0.0.0-humio"
+  source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=v2.0.0"
   app_env                                   = "dev"
   app_name                                  = "humio-logger-ci"
   humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
