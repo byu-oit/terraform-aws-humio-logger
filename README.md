@@ -10,51 +10,27 @@ Infrastructure to watch a CloudWatch log group and forward its logs to Humio.
 
 ### Prerequisites
 
-Before including this module in your project, be sure to communicate with the Platform Engineer over Humio (currently 
-Carson Mills) so that he can keep an updated list of the various data streams coming into Humio and who is responsible 
-for them. He will also need to update filters on views to include the new SubIdxNM values so that data will be visible 
+Before including this module in your project, be sure to communicate with the Platform Engineer over Humio (currently
+Carson Mills) so that he can keep an updated list of the various data streams coming into Humio and who is responsible
+for them. He will also need to update filters on views to include the new SubIdxNM values so that data will be visible
 to you.
 
 ### Example
 
 ```hcl
 module "humio_logger" {
-  source = "github.com/byu-oit/terraform-aws-humio-logger?ref=v1.0.0"
-  app_env                                     = "dev"
-  app_name                                    = "humio-logger-ci"
-  humio_host                                  = "oit-humio.byu.edu" // module.acs_vpn.private_subnet_ids
-  humio_ingest_token                          = module.acs.humio.prd.token 
-  humio_lambda_log_retention                  = 7
-  enable_cloudwatch_logs_auto_subscription    = false
-  humio_cloudwatch_logs_subscription_prefix   = "/humio-logger-ci/dev"
-  enable_cloudwatch_logs_backfiller_autorun   = false
-  enable_vpc_for_ingester_lambdas             = true
-  security_group_ids                          = module.acs.vpc.id     // TODO: better example
-  subnet_ids                                  = module.acs.asd        // TODO: better example
-  humio_lambda_log_level                      = "ERROR"
+  source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=0.0.0-humio"
+  app_env                                   = "dev"
+  app_name                                  = "humio-logger-ci"
+  humio_host                                = module.acs.humio_prd_endpoint
+  humio_ingest_token                        = module.acs.humio_prd_token
+  humio_cloudwatch_logs_subscription_prefix  = "/humio-logger-ci/dev"
 }
-```
-
-### Limitations
-
-Because of [limitations with Terraform](https://www.terraform.io/docs/language/meta-arguments/for_each.html#limitations-on-values-used-in-for_each),
-add this module after the initial deployment of your application to a new environment. Otherwise, you'll get an error 
-similar to this:
-
-```bash
-Error: Invalid for_each argument
-  on ../../main.tf line 75, in resource "aws_lambda_permission" "logging":
-  75:   for_each      = var.log_group_arns
-
-The "for_each" value depends on resource attributes that cannot be determined
-until apply, so Terraform cannot predict how many instances will be created.
-To work around this, use the -target argument to first apply only the
-resources that the for_each depends on.
 ```
 
 ## Requirements
 
-* Terraform version 0.14.11 or greater
+* Terraform version 0.12.17 or greater
 * AWS provider version 3.0 or greater
 
 ## Inputs
@@ -100,6 +76,8 @@ If you update the Lambda function code, be sure to run `zip -r function.zip .` i
 ## Development
 
 To update to the latest bundle of Cloudwatch2Humio:
+
 1. Clone the git repository: [https://github.com/humio/cloudwatch2humio](https://github.com/humio/cloudwatch2humio)
-4. Copy the `$PROJECT/cloudformation.json` file to this project replacing the old cloudformation template.
-5. Ensure that the necessary refactors are implemented in terraform.
+2. Copy the `$PROJECT/cloudformation.json` file to this project replacing the old cloudformation template. This file
+   should not be modified.
+3. Ensure that the necessary refactors are implemented in terraform.
