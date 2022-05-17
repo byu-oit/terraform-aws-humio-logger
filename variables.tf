@@ -45,6 +45,5 @@ variable "humio_lambda_log_level" {
 variable "cloudwatch2humio_version" {
   type        = string
   description = "The version of the integration to be installed. When creating a new stack, the default value is the newest version. Available releases can be found under releases in the GitHub repository."
-  nullable    = true
-  default     = null
+  default     = "v1.2.1"
 }
