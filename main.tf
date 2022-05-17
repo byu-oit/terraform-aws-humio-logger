@@ -27,7 +27,7 @@ resource "aws_security_group" "logging" {
   }
 }
 
-resource "aws_cloudformation_stack" "cloudwatch" {
+resource "aws_cloudformation_stack" "cloudwatch2humio" {
   name          = "${var.app_name}-cloudwatch2humio"
   template_body = data.local_file.cloudformation.content
   parameters = {
@@ -39,7 +39,7 @@ resource "aws_cloudformation_stack" "cloudwatch" {
     HumioCloudWatchLogsSubscriptionPrefix = var.humio_cloudwatch_logs_subscription_prefix
     EnableCloudWatchLogsBackfillerAutoRun = tostring(var.enable_cloudwatch_logs_backfiller_autorun)
     EnableVPCForIngesterLambdas           = "true"
-    SecurityGroupIds                      = [aws_security_group.logging.id]
+    SecurityGroups                        = [aws_security_group.logging.id]
     SubnetIds                             = module.acs.private_subnet_ids
     HumioLambdaLogLevel                   = var.humio_lambda_log_level
   }
