@@ -34,7 +34,7 @@ variable "humio_lambda_log_retention" {
 variable "enable_cloudwatch_logs_auto_subscription" {
   type = bool
   description = "Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'true' to enable."
-  default = true
+  default = false
 }
 
 variable "humio_cloudwatch_logs_subscription_prefix" {
@@ -72,7 +72,7 @@ variable "humio_lambda_log_level" {
   description = "The log level for the Humio lambdas."
   validation {
     condition = contains(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], var.humio_lambda_log_level)
-    error_message = "Must be one of ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']"
+    error_message = "Must be one of ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']."
   }
   default = "INFO"
 }
