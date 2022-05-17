@@ -22,7 +22,7 @@ module "humio_logger" {
   source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=0.0.0-humio"
   app_env                                   = "dev"
   app_name                                  = "humio-logger-ci"
-  humio_cloudwatch_logs_subscription_prefix  = "/humio-logger-ci/dev"
+  humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
 }
 ```
 
@@ -42,18 +42,20 @@ module "humio_logger" {
 | humio_cloudwatch_logs_subscription_prefix | string             | Humio will only subscribe to log groups with the prefix specified.                                                                              | ""      |
 | enable_cloudwatch_logs_backfiller_autorun | bool               | Make the backfiller run automatically when created. Set to 'true' to enable.                                                                    | false   |
 | humio_lambda_log_level                    | string             | The log level for the Humio lambdas. (DEBUG, INFO, WARNING, ERROR, CRITICAL)                                                                    | "INFO"  |
+| cloudwatch2humio_version                  | string | The version of the integration to be installed. When creating a new stack, the default value is the newest version. Available releases can be found under releases in the GitHub repository. |
 
 ## Outputs
 
-| Name                                      | Type               | Description                                                                                                                                     |
-|-------------------------------------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| app_env                                   | string             | The environment of the application. Used to determine what instance of Humio to send log data to.                                               |
-| app_name                                  | string             | The application name to include in the name of resources created.                                                                               |
-| humio_lambda_log_retention                | number             | Number of days to retain CloudWatch logs from the Humio Lambda functions.                                                                       |
-| enable_cloudwatch_logs_auto_subscription  | bool               | Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'true' to enable. |
-| humio_cloudwatch_logs_subscription_prefix | string             | Humio will only subscribe to log groups with the prefix specified.                                                                              |
-| enable_cloudwatch_logs_backfiller_autorun | bool               | Make the backfiller run automatically when created. Set to 'true' to enable.                                                                    |
-| humio_lambda_log_level                    | string             | The log level for the Humio lambdas. (DEBUG, INFO, WARNING, ERROR, CRITICAL)                                                                    |
+| Name                                      | Type   | Description                                                                                                                                                                                  |
+|-------------------------------------------|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| app_env                                   | string | The environment of the application. Used to determine what instance of Humio to send log data to.                                                                                            |
+| app_name                                  | string | The application name to include in the name of resources created.                                                                                                                            |
+| humio_lambda_log_retention                | number | Number of days to retain CloudWatch logs from the Humio Lambda functions.                                                                                                                    |
+| enable_cloudwatch_logs_auto_subscription  | bool   | Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'true' to enable.                                              |
+| humio_cloudwatch_logs_subscription_prefix | string | Humio will only subscribe to log groups with the prefix specified.                                                                                                                           |
+| enable_cloudwatch_logs_backfiller_autorun | bool   | Make the backfiller run automatically when created. Set to 'true' to enable.                                                                                                                 |
+| humio_lambda_log_level                    | string | The log level for the Humio lambdas. (DEBUG, INFO, WARNING, ERROR, CRITICAL)                                                                                                                 |
+| cloudwatch2humio_version                  | string | The version of the integration to be installed. When creating a new stack, the default value is the newest version. Available releases can be found under releases in the GitHub repository. |
 
 ## Deployment
 
@@ -61,7 +63,7 @@ If you update the Lambda function code, be sure to run `zip -r function.zip .` i
 
 ## Development
 
-To update to the latest bundle of Cloudwatch2Humio:
+To update to the latest version of Cloudwatch2Humio:
 
 1. Clone the git repository: [https://github.com/humio/cloudwatch2humio](https://github.com/humio/cloudwatch2humio)
 2. Copy the `$PROJECT/cloudformation.json` file to this project replacing the old cloudformation template. This file

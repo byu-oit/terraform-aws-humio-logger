@@ -16,8 +16,8 @@ variable "humio_lambda_log_retention" {
 
 variable "enable_cloudwatch_logs_auto_subscription" {
   type        = bool
-  description = "Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'true' to enable."
-  default     = false
+  description = "Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'false' to disable."
+  default     = true
 }
 
 variable "humio_cloudwatch_logs_subscription_prefix" {
@@ -40,4 +40,11 @@ variable "humio_lambda_log_level" {
     error_message = "Must be one of ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']."
   }
   default = "INFO"
+}
+
+variable "cloudwatch2humio_version" {
+  type        = string
+  description = "The version of the integration to be installed. When creating a new stack, the default value is the newest version. Available releases can be found under releases in the GitHub repository."
+  nullable    = true
+  default     = null
 }

@@ -25,3 +25,7 @@ output "enable_cloudwatch_logs_backfiller_autorun" {
 output "humio_lambda_log_level" {
   value = var.humio_lambda_log_level
 }
+
+output "cloudwatch2humio_version" {
+  value = var.cloudwatch2humio_version
+}
