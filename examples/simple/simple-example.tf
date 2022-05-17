@@ -13,5 +13,5 @@ module "humio_logger" {
   source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=0.0.0-humio"
   app_env                                   = "dev"
   app_name                                  = "humio-logger-ci"
-  humio_cloudwatch_logs_subscription_prefix  = "/humio-logger-ci/dev"
+  humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
 }

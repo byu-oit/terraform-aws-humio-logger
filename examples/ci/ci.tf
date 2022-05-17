@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.14.11"
+  required_version = ">= 0.12.17"
 
   required_providers {
     aws = {
@@ -14,8 +14,8 @@ provider "aws" {
 }
 
 module "ci_test" {
-  source                    = "../../"
-  app_env                   = "dev"
-  app_name                  = "humio-logger-ci"
-  humio_cloudwatch_logs_subscription_prefix  = "/humio-logger-ci/dev"
+  source                                    = "../../"
+  app_env                                   = "dev"
+  app_name                                  = "humio-logger-ci"
+  humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
 }
