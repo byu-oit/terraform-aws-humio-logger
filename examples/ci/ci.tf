@@ -20,8 +20,7 @@ module "acs" {
 
 module "humio_logger" {
   source                                    = "../.."
-  app_env                                   = "dev"
-  app_name                                  = "humio-logger-ci"
+  app_name                                  = "humio-logger-ci-dev"
   humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
   vpc_id                                    = module.acs.vpc.id
   subnet_ids                                = module.acs.private_subnet_ids

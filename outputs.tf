@@ -1,7 +1,3 @@
-output "app_env" {
-  value = var.app_env
-}
-
 output "app_name" {
   value = var.app_name
 }

@@ -1,8 +1,3 @@
-variable "app_env" {
-  type        = string
-  description = "The environment of the application. Used to determine what instance of Humio to send log data to."
-}
-
 variable "app_name" {
   type        = string
   description = "The application name to include in the name of resources created."

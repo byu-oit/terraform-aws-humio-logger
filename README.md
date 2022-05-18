@@ -20,8 +20,7 @@ to you.
 ```hcl
 module "humio_logger" {
   source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=v2.0.0"
-  app_env                                   = "dev"
-  app_name                                  = "humio-logger-ci"
+  app_name                                  = "humio-logger-ci-dev"
   humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
 }
 ```
@@ -35,7 +34,6 @@ module "humio_logger" {
 
 | Name                                      | Type         | Description                                                                                                                                                                                  | Default         |
 |-------------------------------------------|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| app_env                                   | string       | The environment of the application. Used to determine what instance of Humio to send log data to.                                                                                            |                 |
 | app_name                                  | string       | The application name to include in the name of resources created.                                                                                                                            |                 |
 | humio_protocol                            | string       | The transport protocol used for delivering log/metric events to Humio. HTTPS is default and recommended.                                                                                     | HTTPS           |
 | humio_host                                | string       | The host to ship Humio log/metric events to.                                                                                                                                                 | cloud.humio.com |
@@ -54,7 +52,6 @@ module "humio_logger" {
 
 | Name                                      | Type         | Description                                                                                                                                                                                  |
 |-------------------------------------------|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| app_env                                   | string       | The environment of the application. Used to determine what instance of Humio to send log data to.                                                                                            |
 | app_name                                  | string       | The application name to include in the name of resources created.                                                                                                                            |
 | humio_protocol                            | string       | The transport protocol used for delivering log/metric events to Humio. HTTPS is default and recommended.                                                                                     |
 | humio_host                                | string       | The host to ship Humio log/metric events to.                                                                                                                                                 |
