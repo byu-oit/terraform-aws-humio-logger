@@ -64,21 +64,13 @@ variable "vpc_id" {
 variable "security_group_ids" {
   type        = list(string)
   description = "A list of security group ids for the VPC configuration regarding the ingester lambda functions. Only required if VPC is enabled."
-  validation {
-    condition     = local.enable_vpc_for_ingester_lambdas
-    error_message = "Only required if VPC is enabled."
-  }
-  default = []
+  default     = []
 }
 
 variable "subnet_ids" {
   type        = list(string)
   description = "A list of subnet ids used by the VPC configuration that the ingester lambda functions will be deployed into. Only required if VPC is enabled."
-  validation {
-    condition     = local.enable_vpc_for_ingester_lambdas && length(var.subnet_ids) <= 0
-    error_message = "Only required if VPC is enabled."
-  }
-  default = []
+  default     = []
 }
 
 variable "humio_lambda_log_level" {
