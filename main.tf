@@ -16,7 +16,7 @@ locals {
 }
 
 resource "aws_security_group" "logging" {
-  count  = local.enable_vpc_for_ingester_lambdas && length(local.security_group_ids) <= 0 ? 1 : 0
+  count  = local.enable_vpc_for_ingester_lambdas && length(var.security_group_ids) <= 0 ? 1 : 0
   name   = "${var.app_name}-logs-to-humio"
   vpc_id = var.vpc_id
 
