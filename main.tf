@@ -1,22 +1,23 @@
 terraform {
-  required_version = ">= 0.12.17"
+  required_version = ">= 0.14"
   required_providers {
     aws = ">= 3.0"
   }
-}
-
-module "acs" {
-  source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
-  vpc_vpn_to_campus = true
 }
 
 data "local_file" "cloudformation" {
   filename = "${path.module}/cloudformation.json"
 }
 
+locals {
+  enable_vpc_for_ingester_lambdas = length(var.vpc_id) > 0 ? true : false
+  security_group_ids              = length(var.security_group_ids) > 0 ? var.security_group_ids : [aws_security_group.logging.id]
+}
+
 resource "aws_security_group" "logging" {
+  count  = local.enable_vpc_for_ingester_lambdas && length(local.security_group_ids) <= 0 ? 1 : 0
   name   = "${var.app_name}-logs-to-humio"
-  vpc_id = module.acs.vpc.id
+  vpc_id = var.vpc_id
 
   egress {
     from_port        = 0
@@ -31,16 +32,16 @@ resource "aws_cloudformation_stack" "cloudwatch2humio" {
   name          = "${var.app_name}-cloudwatch2humio"
   template_body = data.local_file.cloudformation.content
   parameters = {
-    HumioProtocol                         = "https"
-    HumioHost                             = var.app_env == "prd" ? module.acs.humio_prd_endpoint : module.acs.humio_dev_endpoint
-    HumioIngestToken                      = var.app_env == "prd" ? module.acs.humio_prd_token : module.acs.humio_dev_token
+    HumioProtocol                         = var.humio_protocol
+    HumioHost                             = var.humio_host
+    HumioIngestToken                      = var.humio_ingest_token
     HumioLambdaLogRetention               = var.humio_lambda_log_retention
     EnableCloudWatchLogsAutoSubscription  = tostring(var.enable_cloudwatch_logs_auto_subscription)
     HumioCloudWatchLogsSubscriptionPrefix = var.humio_cloudwatch_logs_subscription_prefix
     EnableCloudWatchLogsBackfillerAutoRun = tostring(var.enable_cloudwatch_logs_backfiller_autorun)
-    EnableVPCForIngesterLambdas           = "true"
-    SecurityGroupIds                      = join(", ", [aws_security_group.logging.id])
-    SubnetIds                             = join(", ", module.acs.private_subnet_ids)
+    EnableVPCForIngesterLambdas           = tostring(local.enable_vpc_for_ingester_lambdas)
+    SecurityGroupIds                      = join(", ", local.security_group_ids)
+    SubnetIds                             = join(", ", var.subnet_ids)
     HumioLambdaLogLevel                   = var.humio_lambda_log_level
     Version                               = var.cloudwatch2humio_version
   }

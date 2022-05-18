@@ -61,7 +61,7 @@
     },
     "SubnetIds" : {
       "Type" : "CommaDelimitedList",
-      "Description" : "A comma separated list of subnet ids used by the VPC configuration that the ingester lamda functions will be deployed into. Only required if VPC is enabled."
+      "Description" : "A comma separated list of subnet ids used by the VPC configuration that the ingester lambda functions will be deployed into. Only required if VPC is enabled."
     },
     "HumioLambdaLogLevel" : {
       "Type" : "String",
