@@ -14,10 +14,6 @@ output "humio_host" {
   value = var.humio_host
 }
 
-output "humio_ingest_token" {
-  value = var.humio_ingest_token
-}
-
 output "humio_lambda_log_retention" {
   value = var.humio_lambda_log_retention
 }

@@ -12,7 +12,7 @@ data "local_file" "cloudformation" {
 locals {
   enable_vpc_for_ingester_lambdas = length(var.vpc_id) > 0 ? true : false
   subnet_ids                      = local.enable_vpc_for_ingester_lambdas ? var.subnet_ids : []
-  security_group_ids              = local.enable_vpc_for_ingester_lambdas ? length(var.security_group_ids) > 0 ? var.security_group_ids : [aws_security_group.logging.id] : []
+  security_group_ids              = local.enable_vpc_for_ingester_lambdas ? length(var.security_group_ids) > 0 ? var.security_group_ids : [aws_security_group.logging[0].id] : []
 }
 
 resource "aws_security_group" "logging" {
