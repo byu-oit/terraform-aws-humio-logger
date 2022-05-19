@@ -14,6 +14,10 @@ output "humio_lambda_log_retention" {
   value = var.humio_lambda_log_retention
 }
 
+output "humio_lambda_role_permissions_boundary" {
+  value = var.humio_lambda_role_permissions_boundary
+}
+
 output "enable_cloudwatch_logs_auto_subscription" {
   value = var.enable_cloudwatch_logs_auto_subscription
 }

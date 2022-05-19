@@ -23,6 +23,10 @@
       "Description" : "Number of days to retain CloudWatch logs from the Humio Lambda functions.",
       "Default": 1
     },
+    "HumioLambdaRolePermissionsBoundary" : {
+      "Type" : "String",
+      "Description" : "The ARN of the role permissions boundary to attach to the Humio Lambda role."
+    },
     "EnableCloudWatchLogsAutoSubscription" : {
       "Type" : "String",
       "AllowedValues" : [
@@ -83,6 +87,9 @@
     },
     "ConfigureVPCForIngesterLambdas" : {
       "Fn::Equals" : [ { "Ref" : "EnableVPCForIngesterLambdas" }, "true" ]
+    },
+    "AddPermissionBoundary" : {
+      "Fn::Not" : [ { "Fn::Equals" : [ { "Ref" : "HumioLambdaRolePermissionsBoundary" }, "" ] }]
     }
   },
   "Resources" : {
@@ -168,7 +175,10 @@
               ]
             }
           }
-        ]
+        ],
+        "PermissionsBoundary": {
+          "Fn::If" : [ "AddPermissionBoundary", { "Ref" : "HumioLambdaRolePermissionsBoundary" }, { "Ref" : "AWS::NoValue" }]
+        }
       }
     },
     "HumioCloudWatchLogsIngester" : {

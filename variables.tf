@@ -32,6 +32,12 @@ variable "humio_lambda_log_retention" {
   default     = 1
 }
 
+variable "humio_lambda_role_permissions_boundary" {
+  type        = string
+  description = "The ARN of the role permissions boundary to attach to the Humio Lambda role."
+  default     = ""
+}
+
 variable "enable_cloudwatch_logs_auto_subscription" {
   type        = bool
   description = "Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'false' to disable."

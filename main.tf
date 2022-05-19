@@ -38,6 +38,7 @@ resource "aws_cloudformation_stack" "cloudwatch2humio" {
     HumioHost                             = var.humio_host
     HumioIngestToken                      = var.humio_ingest_token
     HumioLambdaLogRetention               = var.humio_lambda_log_retention
+    HumioLambdaRolePermissionsBoundary    = var.humio_lambda_role_permissions_boundary
     EnableCloudWatchLogsAutoSubscription  = tostring(var.enable_cloudwatch_logs_auto_subscription)
     HumioCloudWatchLogsSubscriptionPrefix = var.humio_cloudwatch_logs_subscription_prefix
     EnableCloudWatchLogsBackfillerAutoRun = tostring(var.enable_cloudwatch_logs_backfiller_autorun)
