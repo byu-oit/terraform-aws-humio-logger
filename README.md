@@ -26,11 +26,12 @@ module "acs" {
 module "humio_logger" { 
    source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=v2.0.0"
    app_name                                  = "humio-logger-ci-dev"
-   humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
+   humio_cloudwatch_logs_subscription_prefix  = "/humio-logger-ci/dev"
    vpc_id                                    = module.acs.vpc.id
    subnet_ids                                = module.acs.private_subnet_ids
    humio_host                                = module.acs.humio_dev_endpoint
    humio_ingest_token                        = module.acs.humio_dev_token
+   humio_lambda_role_permissions_boundary    = module.acs.role_permissions_boundary.arn
 }
 ```
 
@@ -49,6 +50,7 @@ module "humio_logger" {
 | humio_host                                | string       | The host to ship Humio log/metric events to.                                                                                                                                                 | cloud.humio.com |
 | humio_ingest_token                        | string       | The value of the ingest token for the repository from your Humio account to ship log/metric events to.                                                                                       | ""              |
 | humio_lambda_log_retention                | number       | Number of days to retain CloudWatch logs from the Humio Lambda functions.                                                                                                                    | 1               |
+| humio_lambda_role_permissions_boundary    | string       | The ARN of the role permissions boundary to attach to the Humio Lambda role.                                                                                                                 | ""              |
 | enable_cloudwatch_logs_auto_subscription  | bool         | Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'true' to enable.                                              | true            |
 | humio_cloudwatch_logs_subscription_prefix | string       | Humio will only subscribe to log groups with the prefix specified.                                                                                                                           | ""              |
 | enable_cloudwatch_logs_backfiller_autorun | bool         | Make the backfiller run automatically when created. Set to 'true' to enable.                                                                                                                 | false           |
@@ -67,6 +69,7 @@ module "humio_logger" {
 | humio_host                                | string       | The host to ship Humio log/metric events to.                                                                                                                                                 |
 | humio_ingest_token                        | string       | The value of the ingest token for the repository from your Humio account to ship log/metric events to.                                                                                       |
 | humio_lambda_log_retention                | number       | Number of days to retain CloudWatch logs from the Humio Lambda functions.                                                                                                                    |
+| humio_lambda_role_permissions_boundary    | string       | The ARN of the role permissions boundary to attach to the Humio Lambda role.                                                                                                                 |
 | enable_cloudwatch_logs_auto_subscription  | bool         | Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'true' to enable.                                              |
 | humio_cloudwatch_logs_subscription_prefix | string       | Humio will only subscribe to log groups with the prefix specified.                                                                                                                           |
 | enable_cloudwatch_logs_backfiller_autorun | bool         | Make the backfiller run automatically when created. Set to 'true' to enable.                                                                                                                 |
@@ -86,5 +89,5 @@ To update to the latest version of Cloudwatch2Humio:
 
 1. Clone the git repository: [https://github.com/humio/cloudwatch2humio](https://github.com/humio/cloudwatch2humio)
 2. Copy the `$PROJECT/cloudformation.json` file to this project replacing the old cloudformation template. This file
-   should not be modified.
+   should not be modified except to add the PermissionsBoundary to the HumioCloudWatchRole.
 3. Ensure that the necessary refactors are implemented in terraform.
