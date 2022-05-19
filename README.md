@@ -15,23 +15,48 @@ Carson Mills) so that he can keep an updated list of the various data streams co
 for them. He will also need to update filters on views to include the new SubIdxNM values so that data will be visible
 to you.
 
+If you only want specific log groups to be ingested into Humio, you can use the `HumioCloudWatchLogsSubscriber` as this
+only subscribes the log ingester to one log group at a time. If you want to subscribe to all log groups available, you
+can use the `HumioCloudWatchBackfiller`. If you have set the `EnableCloudWatchLogsBackfillerAutoRun` parameter to true
+when creating the stack, then you will _not_ have to manually trigger it as it should already have run on creation and
+subscribed the log ingester to all available log groups. Otherwise, both lambdas can be enabled using test events.
+
+For the `HumioCloudWatchLogsSubscriber` lambda, configure your test event like the example below with “EXAMPLE”
+representing an actual log group, and click Test.
+
+```json
+{
+  "detail": {
+    "requestParameters": {
+      "logGroupName": "EXAMPLE"
+    }
+  }
+}
+```
+
+For the `HumioCloudWatchLogsBackfiller` lambda, use the default test event and click Test. This might take a while
+depending on the number of log groups that you are subscribing to.
+
+[For more troubleshooting information, read the documentation.](https://library.humio.com/reference/log-formats/amazon-cloudwatch/#configuring-the-integration)
+provided by Humio about this integration.
+
 ### Example
 
 ```hcl
 module "acs" {
-   source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
-   vpc_vpn_to_campus = true
+  source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
+  vpc_vpn_to_campus = true
 }
 
-module "humio_logger" { 
-   source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=v2.0.0"
-   app_name                                  = "humio-logger-ci-dev"
-   humio_cloudwatch_logs_subscription_prefix  = "/humio-logger-ci/dev"
-   vpc_id                                    = module.acs.vpc.id
-   subnet_ids                                = module.acs.private_subnet_ids
-   humio_host                                = module.acs.humio_dev_endpoint
-   humio_ingest_token                        = module.acs.humio_dev_token
-   humio_lambda_role_permissions_boundary    = module.acs.role_permissions_boundary.arn
+module "humio_logger" {
+  source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=v2.0.0"
+  app_name                                  = "humio-logger-ci-dev"
+  humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
+  vpc_id                                    = module.acs.vpc.id
+  subnet_ids                                = module.acs.private_subnet_ids
+  humio_host                                = module.acs.humio_dev_endpoint
+  humio_ingest_token                        = module.acs.humio_dev_token
+  humio_lambda_role_permissions_boundary    = module.acs.role_permissions_boundary.arn
 }
 ```
 
@@ -39,7 +64,7 @@ module "humio_logger" {
 
 * Terraform version 0.14 or greater
 * AWS provider version 3.0 or greater
-* (optional) when using the BYU-ACS module
+* BYU-ACS version 3.5.0 or greater
 
 ## Inputs
 
