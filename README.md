@@ -46,15 +46,19 @@ module "acs" {
   vpc_vpn_to_campus = true
 }
 
-module "humio_logger" {
-  source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=v2.0.0"
-  app_name                                  = "humio-logger-ci-dev"
-  humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
-  vpc_id                                    = module.acs.vpc.id
-  subnet_ids                                = module.acs.private_subnet_ids
-  humio_host                                = module.acs.humio_dev_endpoint
-  humio_ingest_token                        = module.acs.humio_dev_token
-  humio_lambda_role_permissions_boundary    = module.acs.role_permissions_boundary.arn
+locals {
+   humio_endpoint = "${var.env == "prd" ? module.acs.humio_prd_endpoint : module.acs.humio_dev_endpoint}/api/v1/ingest/humio-structured"
+}
+
+module "cloudwatch2humio" {
+   source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=v2.0.0"
+   app_name                                  = local.app_name
+   humio_cloudwatch_logs_subscription_prefix = local.cloudwatch_log_group_name
+   vpc_id                                    = module.acs.vpc.id
+   subnet_ids                                = module.acs.private_subnet_ids
+   humio_host                                = local.humio_endpoint
+   humio_ingest_token                        = var.env == "prd" ? module.acs.humio_prd_token : module.acs.humio_dev_token
+   humio_lambda_role_permissions_boundary    = module.acs.role_permissions_boundary.arn
 }
 ```
 
