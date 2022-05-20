@@ -104,7 +104,8 @@ module "humio_logger" {
 
 ## Deployment
 
-If you update the Lambda function code, be sure to run `zip -r function.zip .` in the `lambda` folder.
+Push changes to the main branch and create a new release of the humio logger
+following [the semantic versioning specification](https://semver.org).
 
 ## Development
 
