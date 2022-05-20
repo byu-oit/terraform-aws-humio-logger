@@ -30,7 +30,7 @@ resource "aws_security_group" "logging" {
 }
 
 resource "aws_cloudformation_stack" "cloudwatch2humio" {
-  name          = "${var.app_name}-cloudwatch2humio"
+  name          = var.app_name
   template_body = data.local_file.cloudformation.content
   capabilities  = ["CAPABILITY_IAM"]
   parameters = {
