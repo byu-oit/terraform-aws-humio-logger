@@ -10,10 +10,15 @@ and infrastructure there unless the issue is related to terraform.
 
 ## Usage
 
-Before including this module in your project, you must create a new humio log repository and generate an ingest token.
-The default token will work, but you should specify a parser for the logs.
-Read [Ingest Tokens documentation](https://library.humio.com/cloud/docs/ingesting-data/ingest-tokens/) for more
+Before including this module in your project, you should create a new humio log repository and generate an ingest token
+to pass into this module.
+Read the [Ingest Tokens documentation](https://library.humio.com/cloud/docs/ingesting-data/ingest-tokens/) for more
 information.
+
+> #### ACS Humio Endpoints
+> The [ACS Info Terraform Module](https://github.com/byu-oit/terraform-aws-acs-info) provides the Humio dev and prd
+> endpoints for convenience. It is recommended that you only use the prd endpoint (even for deployments of dev
+> resources) because it is a stable endpoint.
 
 If you only want specific log groups to be ingested into Humio, you can use the `HumioCloudWatchLogsSubscriber` as this
 only subscribes the log ingester to one log group at a time. If you want to subscribe to all log groups available, you

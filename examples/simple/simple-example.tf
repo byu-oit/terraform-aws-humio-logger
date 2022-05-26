@@ -13,7 +13,7 @@ provider "aws" {
   region = "us-west-2"
 }
 
-variable "humio_dev_token" {
+variable "humio_token" {
   type        = string
   description = "The Humio ingest token to use for shipping logs to Humio from the cloudwatch ingest lambda."
   sensitive   = true
@@ -30,6 +30,7 @@ module "humio_logger" {
   humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
   vpc_id                                    = module.acs.vpc.id
   subnet_ids                                = module.acs.private_subnet_ids
-  humio_host                                = module.acs.humio_dev_endpoint
-  humio_ingest_token                        = var.humio_dev_token
+  humio_protocol                            = "HTTP"
+  humio_host                                = module.acs.humio_prd_endpoint
+  humio_ingest_token                        = var.humio_token
 }
