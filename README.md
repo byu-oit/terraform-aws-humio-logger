@@ -60,7 +60,7 @@ module "humio_logger" {
   vpc_id                                    = module.acs.vpc.id
   subnet_ids                                = module.acs.private_subnet_ids
   humio_protocol                            = "HTTP" # Only the http protocol is supported for the ACS-provided Humio Endpoints (as of May 26, 2022)
-  humio_host                                = module.acs.humio_dev_endpoint
+  humio_host                                = "${module.acs.humio_prd_endpoint}:8080" # Default is port 80
   humio_ingest_token                        = var.humio_dev_token # Must provide this for each humio log repo
   humio_lambda_role_permissions_boundary    = module.acs.role_permissions_boundary.arn
 }
