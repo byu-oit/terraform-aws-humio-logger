@@ -13,12 +13,12 @@ jobs:
     name: Terraform Format
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Terraform Setup
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: '0.15.x'
+          terraform_version: '1.1.x'
 
       - name: Terraform Format
         working-directory: "./"
@@ -29,9 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['0.14.x', '0.15.x', '1.0.x']
+        terraform: ['0.14.x', '0.15.x', '1.0.x', '1.1.x', '1.2.x']
+      fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -41,7 +42,7 @@ jobs:
           aws-region: us-west-2
 
       - name: Terraform Setup
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ matrix.terraform }}
 
@@ -51,7 +52,7 @@ jobs:
 
       - name: Terraform Plan
         working-directory: ${{ env.tf_working_dir }}
-        run: terraform plan.tfplan -input=false -out=plan.tfplan
+        run: terraform plan.tfplan -var 'humio_token=fake-token' -input=false -out=plan.tfplan
 
       - name: Comment Terraform Plan
         uses: byu-oit/github-action-tf-plan-comment@v1
