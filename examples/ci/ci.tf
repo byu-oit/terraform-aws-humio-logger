@@ -31,7 +31,6 @@ module "humio_logger" {
   vpc_id                                    = module.acs.vpc.id
   subnet_ids                                = module.acs.private_subnet_ids
   humio_protocol                            = "HTTP"
-  # humio_host                                = "${module.acs.humio_prd_endpoint}:8080"
   humio_host                                = "example.com"
   humio_ingest_token                        = var.humio_token
 }
