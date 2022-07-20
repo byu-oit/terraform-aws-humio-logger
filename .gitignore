@@ -15,5 +15,13 @@ override.tf.json
 *_override.tf
 *_override.tf.json
 
+# Build
+node_modules
+coverage
+dist
+
 # Ignore jetbrains .idea folder
 .idea
+
+# MacOS
+.DS_Store

@@ -5,10 +5,36 @@ on:
     branches: [main]
 env:
   tf_working_dir: "./examples/ci"
+  lambda_working_dir: "./lambda"
   aws_key_name: byu_oit_terraform_dev_key
   aws_secret_name: byu_oit_terraform_dev_secret
 
 jobs:
+  check:
+    name: Run All Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: install
+        working-directory: ${{ env.lambda_working_dir }}
+        run: npm ci
+
+      - name: linting
+        working-directory: ${{ env.lambda_working_dir }}
+        run: npm run lint
+
+      - name: build
+        working-directory: ${{ env.lambda_working_dir }}
+        run: npm run build
+
+      - name: tests
+        working-directory: ${{ env.lambda_working_dir }}
+        run: npm run test:coverage
+
   format:
     name: Terraform Format
     runs-on: ubuntu-latest

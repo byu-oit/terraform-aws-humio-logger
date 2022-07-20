@@ -25,12 +25,14 @@ module "acs" {
 }
 
 module "humio_logger" {
-  source                                    = "github.com/byu-oit/terraform-aws-humio-logger?ref=v2.0.0"
-  app_name                                  = "humio-logger-ci-dev"
-  humio_cloudwatch_logs_subscription_prefix = "/humio-logger-ci/dev"
-  vpc_id                                    = module.acs.vpc.id
-  subnet_ids                                = module.acs.private_subnet_ids
-  humio_protocol                            = "HTTP"
-  humio_host                                = "${module.acs.humio_prd_endpoint}:8080"
-  humio_ingest_token                        = var.humio_token
+  source                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=v3.0.0"
+  app_name               = "humio-logger-ci-dev"
+  logs_subscriptions     = ["/humio-logger-ci/dev"]
+  metric_conf            = file("../static/conf_metric_ingester.json")
+  metric_statistics_conf = file("../static/conf_metric_statistics_ingester.json")
+  vpc_id                 = module.acs.vpc.id
+  subnet_ids             = module.acs.private_subnet_ids
+  humio_protocol         = "HTTP"
+  humio_host             = "example.com"
+  humio_ingest_token     = var.humio_token
 }

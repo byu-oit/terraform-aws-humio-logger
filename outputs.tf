@@ -18,34 +18,42 @@ output "humio_lambda_role_permissions_boundary" {
   value = var.humio_lambda_role_permissions_boundary
 }
 
-output "enable_cloudwatch_logs_auto_subscription" {
-  value = var.enable_cloudwatch_logs_auto_subscription
+output "logs_subscriptions" {
+  value = var.logs_subscriptions
 }
 
-output "humio_cloudwatch_logs_subscription_prefix" {
-  value = var.humio_cloudwatch_logs_subscription_prefix
+output "metric_conf" {
+  value = var.metric_conf
 }
 
-output "enable_cloudwatch_logs_backfiller_autorun" {
-  value = var.enable_cloudwatch_logs_backfiller_autorun
+output "metric_rate_expression" {
+  value = var.metric_rate_expression
+}
+
+output "metric_statistics_conf" {
+  value = var.metric_statistics_conf
+}
+
+output "metric_statistics_rate_expression" {
+  value = var.metric_statistics_rate_expression
+}
+
+output "log_level" {
+  value = var.log_level
+}
+
+output "s3_bucket" {
+  value = local.bucket_name
 }
 
 output "vpc_id" {
   value = var.vpc_id
 }
 
-output "security_group_id" {
-  value = local.security_group_ids
+output "security_group_ids" {
+  value = var.security_group_ids
 }
 
 output "subnet_ids" {
   value = var.subnet_ids
-}
-
-output "humio_lambda_log_level" {
-  value = var.humio_lambda_log_level
-}
-
-output "cloudwatch2humio_version" {
-  value = var.cloudwatch2humio_version
 }
