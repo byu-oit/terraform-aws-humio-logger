@@ -1,0 +1,63 @@
+{
+  "name": "@byu-oit/terraform-aws-humio-logger",
+  "version": "0.0.0",
+  "description": "Infrastructure to watch a CloudWatch log groups and forward their logs to a Humio log repository.",
+  "main": "dist/index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byu-oit/terraform-aws-humio-logger.git"
+  },
+  "keywords": [
+    "humio",
+    "cloudwatch",
+    "terraform",
+    "lambda",
+    "log",
+    "ship"
+  ],
+  "author": "Brigham Young University - Office of Information Technology",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/byu-oit/terraform-aws-humio-logger/issues"
+  },
+  "homepage": "https://github.com/byu-oit/terraform-aws-humio-logger#readme",
+  "devDependencies": {
+    "@tsconfig/node16": "^1.0.3",
+    "@types/aws-lambda": "^8.10.101",
+    "@types/jest": "^28.1.6",
+    "@types/lodash.pick": "^4.4.7",
+    "@types/node": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "aws-sdk-client-mock": "^1.0.0",
+    "eslint": "^8.20.0",
+    "eslint-config-standard-with-typescript": "^22.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.4",
+    "eslint-plugin-promise": "^6.0.0",
+    "jest": "^28.1.3",
+    "pino": "^8.2.0",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^28.0.7",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@aws-sdk/client-cloudwatch": "^3.131.0",
+    "@aws-sdk/client-lambda": "^3.131.0",
+    "@byu-oit/logger": "^0.3.14",
+    "dayjs": "^1.11.4",
+    "env-var": "^7.1.1",
+    "lodash.pick": "^4.4.0",
+    "node-fetch": "^3.2.9"
+  }
+}

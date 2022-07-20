@@ -5,7 +5,16 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: weekly
+      interval: monthly
     target-branch: main
     reviewers:
-      - Gi60s
+      - byu-oit/specops-developer
+
+  # NPM Dependencies
+  - package-ecosystem: npm
+    directory: "/lambda"
+    schedule:
+      interval: monthly
+    target-branch: main
+    reviewers:
+      - byu-oit/specops-developer
