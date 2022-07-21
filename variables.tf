@@ -38,22 +38,39 @@ variable "humio_lambda_role_permissions_boundary" {
   default     = ""
 }
 
-variable "enable_cloudwatch_logs_auto_subscription" {
-  type        = bool
-  description = "Make the log ingester automatically subscribe to new log groups specified with the logs subscription prefix parameter. Set to 'false' to disable."
-  default     = true
+variable "logs_subscriptions" {
+  // Pass in a set of aws_cloudwatch_log_group resource
+  type        = list(string)
+  description = "Humio will only subscribe to the log groups specified."
+  default     = []
 }
 
-variable "humio_cloudwatch_logs_subscription_prefix" {
+variable "metric_conf" {
   type        = string
-  description = "Humio will only subscribe to log groups with the prefix specified."
-  default     = "" // Defaults to all log groups
+  description = "Humio will only subscribe to the metrics specified."
+  default     = ""
 }
 
-variable "enable_cloudwatch_logs_backfiller_autorun" {
-  type        = bool
-  description = "Make the backfiller run automatically when created. Set to 'true' to enable."
-  default     = false
+variable "metric_statistics_conf" {
+  type        = string
+  description = "Humio will only subscribe to the metric statistics specified."
+  default     = ""
+}
+
+variable "log_level" {
+  type        = string
+  description = "The log level for the Humio lambdas."
+  validation {
+    condition     = contains(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], var.log_level)
+    error_message = "Must be one of ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']."
+  }
+  default = "INFO"
+}
+
+variable "s3_bucket" {
+  type        = string
+  description = "The name of the S3 bucket where your lambda ingester code is located."
+  default     = ""
 }
 
 variable "vpc_id" {
@@ -72,20 +89,4 @@ variable "subnet_ids" {
   type        = list(string)
   description = "A list of subnet ids used by the VPC configuration that the ingester lambda functions will be deployed into. Only required if VPC is enabled."
   default     = []
-}
-
-variable "humio_lambda_log_level" {
-  type        = string
-  description = "The log level for the Humio lambdas."
-  validation {
-    condition     = contains(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"], var.humio_lambda_log_level)
-    error_message = "Must be one of ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']."
-  }
-  default = "INFO"
-}
-
-variable "cloudwatch2humio_version" {
-  type        = string
-  description = "The version of the integration to be installed. When creating a new stack, the default value is the newest version. Available releases can be found under releases in the GitHub repository."
-  default     = "v1.2.1"
 }

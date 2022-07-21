@@ -5,19 +5,21 @@ terraform {
   }
 }
 
-data "local_file" "cloudformation" {
-  filename = "${path.module}/cloudformation.json"
-}
-
 locals {
-  enable_vpc_for_ingester_lambdas = length(var.vpc_id) > 0 ? true : false
-  subnet_ids                      = local.enable_vpc_for_ingester_lambdas ? var.subnet_ids : []
-  security_group_ids              = local.enable_vpc_for_ingester_lambdas ? length(var.security_group_ids) > 0 ? var.security_group_ids : [aws_security_group.logging[0].id] : []
+  enable_vpc_for_ingester_lambdas   = length(var.vpc_id) > 0
+  add_permission_boundary           = length(var.humio_lambda_role_permissions_boundary) > 0
+  create_source_storage             = length(var.s3_bucket) == 0
+  create_metric_ingester            = length(var.metric_conf) > 0
+  create_metric_statistics_ingester = length(local.bucket_name) > 0
+  bucket_name                       = length(var.s3_bucket) > 0 ? var.s3_bucket : "${var.app_name}-humio-logger"
+  archive_name                      = "cloudwatch2humio.zip"
+  archive_path                      = "${path.module}/${local.archive_name}"
+  source_dir                        = "${path.module}/lambda/dist"
 }
 
-resource "aws_security_group" "logging" {
+resource "aws_security_group" "humio-logger-vpn-sg" {
   count  = local.enable_vpc_for_ingester_lambdas && length(var.security_group_ids) <= 0 ? 1 : 0
-  name   = "${var.app_name}-logs-to-humio"
+  name   = "${var.app_name}-humio-logger-vpn-sg"
   vpc_id = var.vpc_id
 
   egress {
@@ -26,26 +28,5 @@ resource "aws_security_group" "logging" {
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
-  }
-}
-
-resource "aws_cloudformation_stack" "cloudwatch2humio" {
-  name          = var.app_name
-  template_body = data.local_file.cloudformation.content
-  capabilities  = ["CAPABILITY_IAM"]
-  parameters = {
-    HumioProtocol                         = var.humio_protocol
-    HumioHost                             = var.humio_host
-    HumioIngestToken                      = var.humio_ingest_token
-    HumioLambdaLogRetention               = var.humio_lambda_log_retention
-    HumioLambdaRolePermissionsBoundary    = var.humio_lambda_role_permissions_boundary
-    EnableCloudWatchLogsAutoSubscription  = tostring(var.enable_cloudwatch_logs_auto_subscription)
-    HumioCloudWatchLogsSubscriptionPrefix = var.humio_cloudwatch_logs_subscription_prefix
-    EnableCloudWatchLogsBackfillerAutoRun = tostring(var.enable_cloudwatch_logs_backfiller_autorun)
-    EnableVPCForIngesterLambdas           = tostring(local.enable_vpc_for_ingester_lambdas)
-    SecurityGroupIds                      = join(", ", local.security_group_ids)
-    SubnetIds                             = join(", ", var.subnet_ids)
-    HumioLambdaLogLevel                   = var.humio_lambda_log_level
-    Version                               = var.cloudwatch2humio_version
   }
 }
