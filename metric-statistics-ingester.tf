@@ -15,7 +15,7 @@ resource "aws_lambda_function" "humio_cloudwatch_metric_statistics_ingester" {
     }
   }
   vpc_config {
-    security_group_ids = local.enable_vpc_for_ingester_lambdas ? length(var.security_group_ids) > 0 ? var.security_group_ids : [aws_security_group.humio-logger-vpc-sg.id] : []
+    security_group_ids = local.enable_vpc_for_ingester_lambdas ? length(var.security_group_ids) > 0 ? var.security_group_ids : [aws_security_group.humio-logger-vpc-sg[0].id] : []
     subnet_ids         = local.enable_vpc_for_ingester_lambdas ? var.subnet_ids : []
   }
   handler     = "metric_statistics_ingester.handler"
