@@ -17,7 +17,7 @@ locals {
   source_dir                        = "${path.module}/lambda/dist"
 }
 
-resource "aws_security_group" "humio-logger-vpn-sg" {
+resource "aws_security_group" "humio-logger-vpc-sg" {
   count  = local.enable_vpc_for_ingester_lambdas && length(var.security_group_ids) <= 0 ? 1 : 0
   name   = "${var.app_name}-humio-logger-vpn-sg"
   vpc_id = var.vpc_id
