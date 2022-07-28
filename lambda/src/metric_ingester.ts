@@ -9,8 +9,6 @@ import { Context } from 'aws-lambda'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import env from 'env-var'
-import fs from 'fs'
-import path from 'path'
 import { ingest } from './events'
 import { logger } from './logger'
 
@@ -25,9 +23,7 @@ const END_TIME_KEY = 'EndTime'
  */
 export async function handler (event: any, context: Context): Promise<void> {
   // Load user defined configurations for the API request.
-  const filename = env.get('CONF_NAME').default('conf_metric_ingester.json').asString()
-  const contents = fs.readFileSync(path.join(__dirname, filename)).toString('utf-8')
-  const configurations = JSON.parse(contents)
+  const configurations = env.get('CONFIG_FILE').required().asJsonObject() as Record<string, unknown>
 
   // Set next token if one is present in the event.
   if (NEXT_TOKEN_KEY in event) {

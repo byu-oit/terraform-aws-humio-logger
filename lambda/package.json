@@ -2,7 +2,6 @@
   "name": "@byu-oit/terraform-aws-humio-logger",
   "version": "0.0.0",
   "description": "Infrastructure to watch a CloudWatch log groups and forward their logs to a Humio log repository.",
-  "main": "dist/index.js",
   "directories": {
     "example": "examples",
     "test": "test"

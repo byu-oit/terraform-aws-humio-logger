@@ -1,9 +1,8 @@
 resource "aws_lambda_function" "humio_cloudwatch_log_ingester" {
-  depends_on    = [aws_iam_role.humio_cloudwatch_role, aws_s3_bucket_object.cloudwatch2humio_source_code_object]
+  depends_on    = [aws_iam_role.humio_cloudwatch_role]
   description   = "CloudWatch Logs to Humio ingester"
   function_name = "${var.app_name}-log-ingester" // lambda names have a max length of 140 characters
-  s3_bucket     = local.bucket_name
-  s3_key        = local.archive_name
+  image_uri     = var.image_uri
   environment {
     variables = {
       HUMIO_PROTOCOL     = var.humio_protocol

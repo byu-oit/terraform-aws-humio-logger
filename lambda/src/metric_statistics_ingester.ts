@@ -1,7 +1,5 @@
 import { Context } from 'aws-lambda'
 import env from 'env-var'
-import fs from 'fs'
-import path from 'path'
 import {
   CloudWatchClient,
   GetMetricStatisticsCommand,
@@ -23,9 +21,7 @@ const END_TIME_KEY = 'EndTime'
  */
 export async function handler (event: any, context: Context): Promise<void> {
   // Load user defined configurations for the API request.
-  const filename = env.get('CONF_NAME').default('conf_metric_statistics_ingester.json').asString()
-  const contents = fs.readFileSync(path.join(__dirname, filename)).toString('utf-8')
-  const configurations = JSON.parse(contents)
+  const configurations = env.get('CONFIG_FILE').required().asJsonArray() as Array<Record<string, unknown>>
 
   for (const parameters of configurations) {
     // Make CloudWatch:GetMetricStatistics API request.
