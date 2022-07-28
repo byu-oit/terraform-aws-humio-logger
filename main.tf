@@ -10,7 +10,7 @@ locals {
   add_permission_boundary           = length(var.humio_lambda_role_permissions_boundary) > 0
   create_source_storage             = length(var.s3_bucket) == 0
   create_metric_ingester            = length(var.metric_conf) > 0
-  create_metric_statistics_ingester = length(local.bucket_name) > 0
+  create_metric_statistics_ingester = length(var.metric_statistics_conf) > 0
   bucket_name                       = length(var.s3_bucket) > 0 ? var.s3_bucket : "${var.app_name}-humio-logger"
   archive_name                      = "cloudwatch2humio.zip"
   archive_path                      = "${path.module}/${local.archive_name}"
