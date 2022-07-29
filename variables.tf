@@ -87,6 +87,6 @@ variable "subnet_ids" {
 
 variable "image_uri" {
   type        = string
-  description = "The image to use for the ingester lambdas. This option is used for extensibility but is discouraged."
-  default     = "ghcr.io/byu-oit/humio-logger:3"
+  description = "The image to use for the ingester lambdas. This option should not be used except for extensibility and testing."
+  default     = "public.ecr.aws/t9u4r9q5/byu-oit/humio-logger:3"
 }
