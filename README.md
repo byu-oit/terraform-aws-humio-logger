@@ -32,7 +32,7 @@ module "acs" {
 }
 
 module "humio_logger" {
-  source                                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=3.0.0"
+  source                                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=v3.0.0"
   app_name                               = "humio-logger-ci-dev"
   image_uri                              = "ghcr.io/byu-oit/humio-logger:3" # Defaults to the same major version as the terraform module
   humio_protocol                         = "HTTP"
