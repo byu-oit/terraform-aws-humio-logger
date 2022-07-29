@@ -20,19 +20,25 @@ information.
 ### Example
 
 ```hcl
+variable "humio_token" {
+   type        = string
+   description = "The Humio ingest token to use for shipping logs to Humio from the cloudwatch ingest lambda."
+   sensitive   = true
+}
+
 module "acs" {
   source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
   vpc_vpn_to_campus = true
 }
 
 module "humio_logger" {
-  source                                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=v3.0.0"
+  source                                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=3.0.0"
   app_name                               = "humio-logger-ci-dev"
   image_uri                              = "ghcr.io/byu-oit/humio-logger:3" # Defaults to the same major version as the terraform module
   humio_protocol                         = "HTTP"
   # Only the http protocol is supported for the ACS-provided Humio Endpoints (as of May 26, 2022)
   humio_host                             = "${module.acs.humio_prd_endpoint}:8080" # Default is port 80
-  humio_ingest_token                     = var.humio_dev_token # Must provide this for each humio log repo
+  humio_ingest_token                     = var.humio_token # Must provide this for each humio log repo
   humio_lambda_role_permissions_boundary = module.acs.role_permissions_boundary.arn
   vpc_id                                 = module.acs.vpc.id
   subnet_ids                             = module.acs.private_subnet_ids
