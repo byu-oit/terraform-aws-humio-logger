@@ -4,6 +4,9 @@ resource "aws_lambda_function" "humio_cloudwatch_metric_ingester" {
   description   = "CloudWatch Metrics to Humio ingester"
   function_name = "${var.app_name}-metric-ingester" // lambda names have a max length of 140 characters
   image_uri     = var.image_uri
+  image_config {
+    command = ["dist/metric_ingester.handler"]
+  }
   environment {
     variables = {
       HUMIO_PROTOCOL     = var.humio_protocol
