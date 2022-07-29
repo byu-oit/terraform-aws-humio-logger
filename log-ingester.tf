@@ -16,7 +16,7 @@ resource "aws_lambda_function" "humio_cloudwatch_log_ingester" {
     security_group_ids = local.enable_vpc_for_ingester_lambdas ? length(var.security_group_ids) > 0 ? var.security_group_ids : [aws_security_group.humio-logger-vpc-sg[0].id] : []
     subnet_ids         = local.enable_vpc_for_ingester_lambdas ? var.subnet_ids : []
   }
-  handler     = "log_ingester.handler"
+  handler     = "lib/log_ingester.handler"
   memory_size = 128
   role        = aws_iam_role.humio_cloudwatch_role.arn
   runtime     = "nodejs16.x"

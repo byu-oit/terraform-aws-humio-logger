@@ -14,7 +14,6 @@ locals {
   bucket_name                       = length(var.s3_bucket) > 0 ? var.s3_bucket : "${var.app_name}-humio-logger"
   archive_name                      = "cloudwatch2humio.zip"
   archive_path                      = "${path.module}/${local.archive_name}"
-  source_dir                        = "${path.module}/lambda/dist"
 }
 
 resource "aws_security_group" "humio-logger-vpc-sg" {
