@@ -1,17 +1,16 @@
 resource "aws_lambda_function" "humio_cloudwatch_metric_ingester" {
   count         = local.create_metric_ingester ? 1 : 0
-  depends_on    = [aws_iam_role.humio_cloudwatch_role, aws_s3_bucket_object.cloudwatch2humio_source_code_object]
+  depends_on    = [aws_iam_role.humio_cloudwatch_role]
   description   = "CloudWatch Metrics to Humio ingester"
   function_name = "${var.app_name}-metric-ingester" // lambda names have a max length of 140 characters
-  s3_bucket     = local.bucket_name
-  s3_key        = local.archive_name
+  image_uri     = var.image_uri
   environment {
     variables = {
       HUMIO_PROTOCOL     = var.humio_protocol
       HUMIO_HOST         = var.humio_host
       HUMIO_INGEST_TOKEN = var.humio_ingest_token
       LOG_LEVEL          = var.log_level
-      CONF_NAME          = local.metric_conf_name
+      CONFIG_FILE        = var.metric_conf
     }
   }
   vpc_config {

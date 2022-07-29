@@ -1,9 +1,11 @@
 import { CloudWatchClient, GetMetricStatisticsCommand } from '@aws-sdk/client-cloudwatch'
-import { mockClient } from 'aws-sdk-client-mock'
-import fetch, { Response } from 'node-fetch'
-import dayjs from 'dayjs'
-import { handler } from '../src/metric_statistics_ingester'
 import { Context } from 'aws-lambda'
+import { mockClient } from 'aws-sdk-client-mock'
+import dayjs from 'dayjs'
+import fetch, { Response } from 'node-fetch'
+import fs from 'fs'
+import path from 'path'
+import { handler } from '../src/metric_statistics_ingester'
 
 // Mocking node fetch: https://stackoverflow.com/a/68379449/7542561
 jest.mock('node-fetch', () => jest.fn())
@@ -13,7 +15,7 @@ const mockFetch = fetch as jest.MockedFunction<typeof fetch>
 const cloudwatchMock = mockClient(CloudWatchClient)
 
 beforeAll(() => {
-  process.env.CONF_NAME = '../../examples/static/conf_metric_statistics_ingester.json'
+  process.env.CONFIG_FILE = fs.readFileSync(path.join(__dirname, '../static/conf_metric_statistics_ingester.json')).toString()
 })
 
 beforeEach(() => {

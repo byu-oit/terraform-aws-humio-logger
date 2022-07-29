@@ -47,13 +47,13 @@ variable "logs_subscriptions" {
 
 variable "metric_conf" {
   type        = string
-  description = "Humio will only subscribe to the metrics specified."
+  description = "The metric configuration that Humio will use to subscribe to the metrics specified."
   default     = ""
 }
 
 variable "metric_statistics_conf" {
   type        = string
-  description = "Humio will only subscribe to the metric statistics specified."
+  description = "The metric configuration that Humio will use to subscribe to the metric statistics specified."
   default     = ""
 }
 
@@ -65,12 +65,6 @@ variable "log_level" {
     error_message = "Must be one of ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']."
   }
   default = "INFO"
-}
-
-variable "s3_bucket" {
-  type        = string
-  description = "The name of the S3 bucket where your lambda ingester code is located."
-  default     = ""
 }
 
 variable "vpc_id" {
@@ -89,4 +83,10 @@ variable "subnet_ids" {
   type        = list(string)
   description = "A list of subnet ids used by the VPC configuration that the ingester lambda functions will be deployed into. Only required if VPC is enabled."
   default     = []
+}
+
+variable "image_uri" {
+  type        = string
+  description = "The image to use for the ingester lambdas. This option is used for extensibility but is discouraged."
+  default     = "ghcr.io/byu-oit/humio-logger:3"
 }

@@ -34,10 +34,6 @@ output "log_level" {
   value = var.log_level
 }
 
-output "s3_bucket" {
-  value = local.bucket_name
-}
-
 output "vpc_id" {
   value = var.vpc_id
 }
@@ -48,4 +44,23 @@ output "security_group_ids" {
 
 output "subnet_ids" {
   value = var.subnet_ids
+}
+
+output "image_uri" {
+  value = var.image_uri
+}
+
+output "log_ingester" {
+  value     = aws_lambda_function.humio_cloudwatch_log_ingester
+  sensitive = true
+}
+
+output "metric_ingester" {
+  value     = local.create_metric_ingester ? aws_lambda_function.humio_cloudwatch_metric_ingester[0] : null
+  sensitive = true
+}
+
+output "metric_statistics_ingester" {
+  value     = local.create_metric_statistics_ingester ? aws_lambda_function.humio_cloudwatch_metric_statistics_ingester[0] : null
+  sensitive = true
 }

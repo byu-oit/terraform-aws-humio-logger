@@ -18,6 +18,7 @@ override.tf.json
 # Build
 node_modules
 coverage
+dist
 
 # Ignore jetbrains .idea folder
 .idea
