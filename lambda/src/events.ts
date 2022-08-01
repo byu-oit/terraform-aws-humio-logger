@@ -16,8 +16,9 @@ const headers = {
  */
 export async function ingest (humioEvents: unknown[], hostType: string): Promise<Response> {
   const data = [{ tags: { host: hostType }, events: humioEvents }]
-  logger.debug({ data }, 'Data being sent to Humio')
-  return await fetch(url, { method: 'POST', headers, body: data })
+  const method = 'POST'
+  logger.debug({ url, method, headers, data }, 'Ingest request to Humio')
+  return await fetch(url, { method, headers, body: JSON.stringify(data) })
 }
 
 /**

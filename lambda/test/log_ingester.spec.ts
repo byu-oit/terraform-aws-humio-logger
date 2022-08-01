@@ -59,7 +59,7 @@ test('Verify Lambda Handler Flow', async () => {
   expect(mockFetch).toHaveBeenCalledTimes(1)
 
   // Fetch request body should match
-  expect(mockFetch.mock.calls?.[0]?.[1]?.body?.[0]).toEqual({
+  expect(JSON.parse(mockFetch.mock.calls?.[0]?.[1]?.body as string)?.[0]).toEqual({
     tags: {
       host: 'cloudwatch_logs'
     },

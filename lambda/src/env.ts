@@ -1,11 +1,10 @@
 import env from 'env-var'
 
-export const host = env.get('HUMIO_HOST').default('https://cloud.humio.com').asUrlObject()
-host.pathname = '/api/v1/ingest/humio-structured'
+const host = env.get('HUMIO_HOST').default('https://cloud.humio.com').asString()
+const endpoint = env.get('HUMIO_ENDPOINT').default('/api/v1/ingest/humio-structured').asString()
+const protocol = env.get('HUMIO_PROTOCOL').default('HTTPS').asEnum(['HTTPS', 'HTTP']).toLowerCase()
 
-export const url = host.toString()
-
-export const protocol = env.get('HUMIO_PROTOCOL').default('HTTPS').asEnum(['HTTPS', 'HTTP'])
+export const url = new URL(endpoint, `${protocol}://${host}`).toString()
 
 export const token = env.get('HUMIO_INGEST_TOKEN').default('').asString()
 
