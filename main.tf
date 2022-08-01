@@ -9,6 +9,7 @@ locals {
   enable_vpc_for_ingester_lambdas   = length(var.vpc_id) > 0
   add_permission_boundary           = length(var.humio_lambda_role_permissions_boundary) > 0
   create_source_storage             = length(var.s3_bucket) == 0
+  create_log_ingester               = length(var.logs_subscriptions) > 0
   create_metric_ingester            = length(var.metric_conf) > 0
   create_metric_statistics_ingester = length(var.metric_statistics_conf) > 0
   bucket_name                       = length(var.s3_bucket) > 0 ? var.s3_bucket : "${var.app_name}-humio-logger"
