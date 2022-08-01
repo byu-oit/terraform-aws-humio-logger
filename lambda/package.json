@@ -18,7 +18,7 @@
     "lint:fix": "eslint . --fix",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "zip": "rimraf ../cloudwatch2humio.zip && glob-zip ../cloudwatch2humio.zip 'dist/**'"
+    "zip": "rimraf ../cloudwatch2humio.zip && glob-zip ../cloudwatch2humio.zip 'dist/**/*' --lift 1"
   },
   "repository": {
     "type": "git",
