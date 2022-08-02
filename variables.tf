@@ -51,10 +51,22 @@ variable "metric_conf" {
   default     = ""
 }
 
+variable "metric_rate_expression" {
+  type        = string
+  description = "The rate expression (<number> <unit>) at which the metric ingester will run. See [Rate Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#RateExpressions) for more details."
+  default     = "15 minutes"
+}
+
 variable "metric_statistics_conf" {
   type        = string
   description = "Humio will only subscribe to the metric statistics specified."
   default     = ""
+}
+
+variable "metric_statistics_rate_expression" {
+  type        = string
+  description = "The rate expression (<number> <unit>) at which the metric statistics ingester will run. See [Rate Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#RateExpressions) for more details."
+  default     = "15 minutes"
 }
 
 variable "log_level" {

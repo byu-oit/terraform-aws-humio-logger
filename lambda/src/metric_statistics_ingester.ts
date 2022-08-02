@@ -1,7 +1,5 @@
 import { Context } from 'aws-lambda'
 import env from 'env-var'
-import fs from 'fs'
-import path from 'path'
 import {
   CloudWatchClient,
   GetMetricStatisticsCommand,
@@ -12,6 +10,7 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { logger } from './logger'
 import { ingest } from './events'
+import { parseRateUnit } from './util'
 
 dayjs.extend(utc)
 
@@ -23,9 +22,7 @@ const END_TIME_KEY = 'EndTime'
  */
 export async function handler (event: any, context: Context): Promise<void> {
   // Load user defined configurations for the API request.
-  const filename = env.get('CONF_NAME').default('conf_metric_statistics_ingester.json').asString()
-  const contents = fs.readFileSync(path.join(__dirname, filename)).toString('utf-8')
-  const configurations = JSON.parse(contents)
+  const configurations = env.get('CONFIG').required().asJsonArray()
 
   for (const parameters of configurations) {
     // Make CloudWatch:GetMetricStatistics API request.
@@ -46,7 +43,8 @@ export async function handler (event: any, context: Context): Promise<void> {
 async function getMetricStatistics (parameters: any): Promise<GetMetricStatisticsCommandOutput> {
   // Check whether start and end time has been set or defaults are to be used.
   if (!(START_TIME_KEY in parameters)) {
-    parameters[START_TIME_KEY] = dayjs.utc().subtract(15, 'minutes').toISOString()
+    const [value, unit] = env.get('RATE_EXPRESSION').default('15 minutes').asString().split(' ')
+    parameters[START_TIME_KEY] = dayjs.utc().subtract(parseInt(value), parseRateUnit(unit)).toISOString()
   }
 
   if (!(END_TIME_KEY in parameters)) {

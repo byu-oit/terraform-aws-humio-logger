@@ -2,9 +2,11 @@ import { CloudWatchClient, GetMetricDataCommand, StatusCode } from '@aws-sdk/cli
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda'
 import { Context } from 'aws-lambda'
 import { mockClient } from 'aws-sdk-client-mock'
-import fetch, { Response } from 'node-fetch'
-import { handler } from '../src/metric_ingester'
 import dayjs from 'dayjs'
+import { readFileSync } from 'fs'
+import fetch, { Response } from 'node-fetch'
+import { resolve } from 'path'
+import { handler } from '../src/metric_ingester'
 
 // Mocking node fetch: https://stackoverflow.com/a/68379449/7542561
 jest.mock('node-fetch', () => jest.fn())
@@ -15,7 +17,7 @@ const cloudwatchMock = mockClient(CloudWatchClient)
 const lambdaMock = mockClient(LambdaClient)
 
 beforeAll(() => {
-  process.env.CONF_NAME = '../../examples/static/conf_metric_ingester.json'
+  process.env.CONFIG = readFileSync(resolve(__dirname, './static/conf_metric_ingester.json')).toString()
 })
 
 beforeEach(() => {

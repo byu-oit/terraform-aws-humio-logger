@@ -11,7 +11,8 @@ resource "aws_lambda_function" "humio_cloudwatch_metric_statistics_ingester" {
       HUMIO_HOST         = var.humio_host
       HUMIO_INGEST_TOKEN = var.humio_ingest_token
       LOG_LEVEL          = var.log_level
-      CONFIG_FILE        = var.metric_statistics_conf
+      CONFIG             = var.metric_statistics_conf
+      RATE_EXPRESSION    = var.metric_statistics_rate_expression
     }
   }
   vpc_config {
@@ -36,4 +37,11 @@ resource "aws_cloudwatch_log_group" "humio_cloudwatch_metric_statistics_ingester
   count             = local.create_metric_statistics_ingester ? 1 : 0
   name              = "/aws/lambda/${aws_lambda_function.humio_cloudwatch_metric_statistics_ingester[0].function_name}"
   retention_in_days = var.humio_lambda_log_retention
+}
+
+resource "aws_cloudwatch_event_rule" "metric_statistics_ingester_schedule" {
+  count               = local.create_metric_statistics_ingester ? 1 : 0
+  name                = "${var.app_name}-metric-stats-schedule"
+  schedule_expression = var.metric_statistics_rate_expression
+  role_arn            = aws_iam_role.humio_cloudwatch_role.arn
 }

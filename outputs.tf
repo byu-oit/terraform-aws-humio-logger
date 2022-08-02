@@ -26,8 +26,16 @@ output "metric_conf" {
   value = var.metric_conf
 }
 
+output "metric_rate_expression" {
+  value = var.metric_rate_expression
+}
+
 output "metric_statistics_conf" {
   value = var.metric_statistics_conf
+}
+
+output "metric_statistics_rate_expression" {
+  value = var.metric_statistics_rate_expression
 }
 
 output "log_level" {

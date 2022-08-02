@@ -9,10 +9,9 @@ import { Context } from 'aws-lambda'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import env from 'env-var'
-import fs from 'fs'
-import path from 'path'
 import { ingest } from './events'
 import { logger } from './logger'
+import { parseRateUnit } from './util'
 
 dayjs.extend(utc)
 
@@ -25,9 +24,7 @@ const END_TIME_KEY = 'EndTime'
  */
 export async function handler (event: any, context: Context): Promise<void> {
   // Load user defined configurations for the API request.
-  const filename = env.get('CONF_NAME').default('conf_metric_ingester.json').asString()
-  const contents = fs.readFileSync(path.join(__dirname, filename)).toString('utf-8')
-  const configurations = JSON.parse(contents)
+  const configurations = env.get('CONFIG').required().asJsonObject() as any
 
   // Set next token if one is present in the event.
   if (NEXT_TOKEN_KEY in event) {
@@ -39,7 +36,8 @@ export async function handler (event: any, context: Context): Promise<void> {
     if (START_TIME_KEY in event) {
       configurations[START_TIME_KEY] = event[START_TIME_KEY]
     } else {
-      configurations[START_TIME_KEY] = dayjs.utc().subtract(15, 'minutes').toISOString()
+      const [value, unit] = env.get('RATE_EXPRESSION').default('15 minutes').asString().split(' ')
+      configurations[START_TIME_KEY] = dayjs.utc().subtract(parseInt(value), parseRateUnit(unit)).toISOString()
     }
   }
 
