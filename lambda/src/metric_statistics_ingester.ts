@@ -23,9 +23,7 @@ const END_TIME_KEY = 'EndTime'
  */
 export async function handler (event: any, context: Context): Promise<void> {
   // Load user defined configurations for the API request.
-  const filename = env.get('CONF_NAME').default('conf_metric_statistics_ingester.json').asString()
-  const contents = fs.readFileSync(path.join(__dirname, filename)).toString('utf-8')
-  const configurations = JSON.parse(contents)
+  let configurations = env.get('CONFIG').required().asJsonArray() as any[]
 
   for (const parameters of configurations) {
     // Make CloudWatch:GetMetricStatistics API request.

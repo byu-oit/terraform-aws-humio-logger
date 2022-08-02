@@ -11,7 +11,7 @@ resource "aws_lambda_function" "humio_cloudwatch_metric_ingester" {
       HUMIO_HOST         = var.humio_host
       HUMIO_INGEST_TOKEN = var.humio_ingest_token
       LOG_LEVEL          = var.log_level
-      CONFIG_FILE        = var.metric_statistics_conf
+      CONFIG             = var.metric_statistics_conf
     }
   }
   vpc_config {
