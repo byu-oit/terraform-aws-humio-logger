@@ -42,6 +42,6 @@ resource "aws_cloudwatch_log_group" "humio_cloudwatch_metric_statistics_ingester
 resource "aws_cloudwatch_event_rule" "metric_statistics_ingester_schedule" {
   count               = local.create_metric_statistics_ingester ? 1 : 0
   name                = "${var.app_name}-metric-stats-schedule"
-  schedule_expression = var.metric_statistics_rate_expression
+  schedule_expression = "rate(${var.metric_statistics_rate_expression})"
   role_arn            = aws_iam_role.humio_cloudwatch_role.arn
 }
