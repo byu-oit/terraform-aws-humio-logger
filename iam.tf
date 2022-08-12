@@ -8,7 +8,8 @@ locals {
           Service = [
             "lambda.amazonaws.com",
             "apigateway.amazonaws.com",
-            "logs.amazonaws.com"
+            "logs.amazonaws.com",
+            "events.amazonaws.com"
           ]
         },
         Effect = "Allow",
