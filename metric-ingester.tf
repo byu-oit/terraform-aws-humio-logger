@@ -30,7 +30,8 @@ resource "aws_lambda_permission" "humio_cloudwatch_metric_ingester_permission" {
   count         = local.create_metric_ingester ? 1 : 0
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.humio_cloudwatch_metric_ingester[0].function_name
-  principal     = "logs.amazonaws.com"
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.metric_ingester_schedule[0].arn
 }
 
 resource "aws_cloudwatch_log_group" "humio_cloudwatch_metric_ingester_log_group" {
@@ -44,4 +45,11 @@ resource "aws_cloudwatch_event_rule" "metric_ingester_schedule" {
   name                = "${var.app_name}-metric-schedule"
   schedule_expression = "rate(${var.metric_rate_expression})"
   role_arn            = aws_iam_role.humio_cloudwatch_role.arn
+}
+
+resource "aws_cloudwatch_event_target" "metric_ingester_schedule_target" {
+  count = local.create_metric_ingester ? 1 : 0
+  arn   = aws_lambda_function.humio_cloudwatch_metric_ingester[0].arn
+  rule  = aws_cloudwatch_event_rule.metric_ingester_schedule[0].name
+  input = jsonencode({})
 }
