@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "humio_cloudwatch_metric_ingester" {
   count         = local.create_metric_ingester ? 1 : 0
-  depends_on    = [aws_iam_role.humio_cloudwatch_role, aws_s3_bucket_object.cloudwatch2humio_source_code_object]
+  depends_on    = [aws_iam_role.humio_cloudwatch_role, aws_s3_bucket_object.cloudwatch2humio_source_code_object[0]]
   description   = "CloudWatch Metrics to Humio ingester"
   function_name = "${var.app_name}-metric-ingester" // lambda names have a max length of 140 characters
   s3_bucket     = local.bucket_name

@@ -21,8 +21,10 @@ const END_TIME_KEY = 'EndTime'
  * Ingest CloudWatch Metric statistics to Humio repository.
  */
 export async function handler (event: any, context: Context): Promise<void> {
+  logger.debug({ event, context }, 'Invoked metric statistics ingester')
   // Load user defined configurations for the API request.
   const configurations = env.get('CONFIG').required().asJsonArray()
+  logger.debug({ configurations }, 'Found configurations in environment')
 
   for (const parameters of configurations) {
     // Make CloudWatch:GetMetricStatistics API request.
@@ -44,11 +46,11 @@ async function getMetricStatistics (parameters: any): Promise<GetMetricStatistic
   // Check whether start and end time has been set or defaults are to be used.
   if (!(START_TIME_KEY in parameters)) {
     const [value, unit] = env.get('RATE_EXPRESSION').default('15 minutes').asString().split(' ')
-    parameters[START_TIME_KEY] = dayjs.utc().subtract(parseInt(value), parseRateUnit(unit)).toISOString()
+    parameters[START_TIME_KEY] = dayjs.utc().subtract(parseInt(value), parseRateUnit(unit))
   }
 
   if (!(END_TIME_KEY in parameters)) {
-    parameters[END_TIME_KEY] = dayjs.utc().toISOString()
+    parameters[END_TIME_KEY] = dayjs.utc()
   }
 
   // Used for debugging.
