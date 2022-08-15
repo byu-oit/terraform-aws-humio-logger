@@ -1,10 +1,11 @@
 resource "aws_lambda_function" "humio_cloudwatch_metric_statistics_ingester" {
-  count         = local.create_metric_statistics_ingester ? 1 : 0
-  depends_on    = [aws_iam_role.humio_cloudwatch_role, aws_s3_bucket_object.cloudwatch2humio_source_code_object[0]]
-  description   = "CloudWatch Metric Statistics to Humio ingester"
-  function_name = "${var.app_name}-metric-ingester" // lambda names have a max length of 140 characters
-  s3_bucket     = local.bucket_name
-  s3_key        = local.archive_name
+  count            = local.create_metric_statistics_ingester ? 1 : 0
+  depends_on       = [aws_iam_role.humio_cloudwatch_role]
+  description      = "CloudWatch Metric Statistics to Humio ingester"
+  function_name    = "${var.app_name}-metric-ingester" // lambda names have a max length of 140 characters
+  s3_bucket        = data.aws_s3_bucket_object.cloudwatch2humio_source_code_object.bucket
+  s3_key           = data.aws_s3_bucket_object.cloudwatch2humio_source_code_object.key
+  source_code_hash = data.aws_s3_bucket_object.cloudwatch2humio_source_code_object.etag
   environment {
     variables = {
       HUMIO_PROTOCOL     = var.humio_protocol
