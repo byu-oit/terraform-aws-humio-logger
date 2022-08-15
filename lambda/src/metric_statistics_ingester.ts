@@ -111,6 +111,7 @@ function formatHumioEvents (metrics: GetMetricStatisticsCommandOutput, parameter
     }
     humioEvents.push(event)
   })
+  logger.debug({ events: humioEvents }, 'Formatted humio events')
 
   return humioEvents
 }

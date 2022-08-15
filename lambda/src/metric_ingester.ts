@@ -87,7 +87,7 @@ export async function handler (event: any, context: Context): Promise<void> {
     const command = new InvokeCommand({
       FunctionName: context.functionName,
       InvocationType: 'Event',
-      Payload: event
+      Payload: Buffer.from(JSON.stringify(event))
     })
     await client.send(command)
   }
