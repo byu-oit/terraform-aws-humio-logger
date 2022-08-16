@@ -1,6 +1,25 @@
 resource "aws_s3_bucket" "cloudwatch2humio_source_code_bucket" {
   count  = local.create_source_storage ? 1 : 0
   bucket = local.bucket_name
+
+  lifecycle_rule {
+    enabled                                = true
+    abort_incomplete_multipart_upload_days = 10
+    id                                     = "AutoAbortFailedMultipartUpload"
+
+    expiration {
+      days                         = 0
+      expired_object_delete_marker = false
+    }
+  }
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket_object" "cloudwatch2humio_source_code_object" {
