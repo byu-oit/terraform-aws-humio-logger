@@ -14,6 +14,7 @@ resource "aws_lambda_function" "humio_cloudwatch_metric_ingester" {
       LOG_LEVEL          = var.log_level
       CONFIG             = var.metric_conf
       RATE_EXPRESSION    = var.metric_rate_expression
+      NODE_ENV           = "production"
     }
   }
   vpc_config {

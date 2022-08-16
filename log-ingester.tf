@@ -12,6 +12,7 @@ resource "aws_lambda_function" "humio_cloudwatch_log_ingester" {
       HUMIO_HOST         = var.humio_host
       HUMIO_INGEST_TOKEN = var.humio_ingest_token
       LOG_LEVEL          = var.log_level
+      NODE_ENV           = "production"
     }
   }
   vpc_config {
