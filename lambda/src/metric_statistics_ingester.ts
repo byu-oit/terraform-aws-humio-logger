@@ -90,7 +90,7 @@ function formatHumioEvents (metrics: GetMetricStatisticsCommandOutput, parameter
 
   // Create one Humio event per datapoint/timestamp
   ;(metrics.Datapoints ?? []).forEach((datapoint) => {
-    const timestamp = dayjs(datapoint.Timestamp).utc().toISOString()
+    const timestamp = dayjs(datapoint.Timestamp).toISOString()
     const event = {
       timestamp,
       attributes: {

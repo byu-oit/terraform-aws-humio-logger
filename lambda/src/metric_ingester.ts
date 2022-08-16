@@ -137,7 +137,7 @@ function formatHumioEvents (metrics: GetMetricDataCommandOutput, configurations:
   // Create Humio event based on each extracted timestamp.
   for (const result of metrics.MetricDataResults ?? []) {
     (result.Timestamps ?? []).forEach((ts, i) => {
-      const timestamp = dayjs(ts).utc().toISOString()
+      const timestamp = dayjs(ts).toISOString()
       humioEvents.push({
         timestamp,
         attributes: {
