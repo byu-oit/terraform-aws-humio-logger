@@ -41,7 +41,7 @@ module "humio_logger" {
 ## Requirements
 
 * Terraform version 0.14 or greater
-* AWS provider version 3.0 or greater
+* AWS provider version 4.15 or greater
 * BYU-ACS version 3.5.0 or greater
 
 ## Inputs
