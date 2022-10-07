@@ -26,7 +26,7 @@ module "acs" {
 }
 
 module "humio_logger" {
-  source                                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=v3.0.0"
+  source                                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=v3.0.1"
   app_name                               = "humio-logger-ci-dev"
   humio_protocol                         = "HTTP"
   # Only the http protocol is supported for the ACS-provided Humio Endpoints (as of May 26, 2022)
@@ -41,7 +41,7 @@ module "humio_logger" {
 ## Requirements
 
 * Terraform version 0.14 or greater
-* AWS provider version 3.0 or greater
+* AWS provider version 4.15 or greater
 * BYU-ACS version 3.5.0 or greater
 
 ## Inputs

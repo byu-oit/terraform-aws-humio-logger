@@ -48,7 +48,7 @@ export async function handler (event: any, context: Context): Promise<void> {
     logger.debug('Set start time from configuration')
     const startTime = dayjs(configurations[START_TIME_KEY])
     if (!startTime.isValid()) {
-      throw new TypeError(`Invalid start time ${configurations[START_TIME_KEY]}`)
+      throw new TypeError(`Invalid start time ${String(configurations[START_TIME_KEY])}`)
     }
     configurations[END_TIME_KEY] = startTime
   }
@@ -66,7 +66,7 @@ export async function handler (event: any, context: Context): Promise<void> {
     logger.debug('Set end time from configuration')
     const endTime = dayjs(configurations[END_TIME_KEY])
     if (!endTime.isValid()) {
-      throw new TypeError(`Invalid end time ${configurations[END_TIME_KEY]}`)
+      throw new TypeError(`Invalid end time ${String(configurations[END_TIME_KEY])}`)
     }
     configurations[END_TIME_KEY] = endTime
   }
