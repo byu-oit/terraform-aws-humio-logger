@@ -24,6 +24,7 @@ resource "aws_s3_bucket" "cloudwatch2humio_source_code_bucket" {
 
 resource "aws_s3_bucket_object" "cloudwatch2humio_source_code_object" {
   count       = local.create_source_storage ? 1 : 0
+  depends_on  = [aws_s3_bucket.cloudwatch2humio_source_code_bucket]
   bucket      = aws_s3_bucket.cloudwatch2humio_source_code_bucket[0].bucket
   key         = local.archive_name
   source      = local.archive_path
@@ -31,6 +32,7 @@ resource "aws_s3_bucket_object" "cloudwatch2humio_source_code_object" {
 }
 
 data "aws_s3_bucket_object" "cloudwatch2humio_source_code_object" {
-  bucket = local.create_source_storage ? aws_s3_bucket.cloudwatch2humio_source_code_bucket[0].bucket : local.bucket_name
-  key    = local.archive_name
+  depends_on = [aws_s3_bucket_object.cloudwatch2humio_source_code_object]
+  bucket     = local.create_source_storage ? aws_s3_bucket.cloudwatch2humio_source_code_bucket[0].bucket : local.bucket_name
+  key        = local.archive_name
 }
