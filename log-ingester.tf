@@ -5,7 +5,7 @@ resource "aws_lambda_function" "humio_cloudwatch_log_ingester" {
   function_name    = "${var.app_name}-log-ingester" // lambda names have a max length of 140 characters
   s3_bucket        = data.aws_s3_bucket_object.cloudwatch2humio_source_code_object.bucket
   s3_key           = data.aws_s3_bucket_object.cloudwatch2humio_source_code_object.key
-  source_code_hash = data.aws_s3_bucket_object.cloudwatch2humio_source_code_object.etag
+  source_code_hash = filebase64sha256(local.archive_path)
   environment {
     variables = {
       HUMIO_PROTOCOL     = var.humio_protocol
