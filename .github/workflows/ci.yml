@@ -57,6 +57,10 @@ jobs:
       matrix:
         terraform: ['0.14.x', '0.15.x', '1.0.x', '1.1.x', '1.2.x']
       fail-fast: false
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
 
