@@ -25,7 +25,7 @@ module "acs" {
 }
 
 module "humio_logger" {
-  source                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=v3.0.3"
+  source                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=v3.0.4"
   app_name               = "humio-logger-ci-dev"
   logs_subscriptions     = ["/humio-logger-ci/dev"]
   metric_conf            = file("../static/conf_metric_ingester.json")
