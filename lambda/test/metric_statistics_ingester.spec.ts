@@ -1,9 +1,9 @@
 import { CloudWatchClient, GetMetricStatisticsCommand } from '@aws-sdk/client-cloudwatch'
 import { mockClient } from 'aws-sdk-client-mock'
-import { Context } from 'aws-lambda'
+import { type Context } from 'aws-lambda'
 import dayjs from 'dayjs'
 import { readFileSync } from 'fs'
-import fetch, { Response } from 'node-fetch'
+import fetch, { type Response } from 'node-fetch'
 import { resolve } from 'path'
 import { handler } from '../src/metric_statistics_ingester'
 

@@ -1,11 +1,11 @@
 import {
   CloudWatchClient,
   GetMetricDataCommand,
-  GetMetricDataCommandOutput,
-  MessageData
+  type GetMetricDataCommandOutput,
+  type MessageData
 } from '@aws-sdk/client-cloudwatch'
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda'
-import { Context } from 'aws-lambda'
+import { type Context } from 'aws-lambda'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import env from 'env-var'

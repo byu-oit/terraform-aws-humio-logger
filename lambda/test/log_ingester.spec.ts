@@ -1,7 +1,7 @@
-import { CloudWatchLogsEvent } from 'aws-lambda'
-import { CloudWatchLogsDecodedData } from 'aws-lambda/trigger/cloudwatch-logs'
+import { type CloudWatchLogsEvent } from 'aws-lambda'
+import { type CloudWatchLogsDecodedData } from 'aws-lambda/trigger/cloudwatch-logs'
 import dayjs from 'dayjs'
-import fetch, { Response } from 'node-fetch'
+import fetch, { type Response } from 'node-fetch'
 import { gzipSync } from 'zlib'
 import { handler } from '../src/log_ingester'
 
