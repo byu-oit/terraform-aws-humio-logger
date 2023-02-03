@@ -1,10 +1,10 @@
 import { CloudWatchClient, GetMetricDataCommand, StatusCode } from '@aws-sdk/client-cloudwatch'
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda'
-import { Context } from 'aws-lambda'
+import { type Context } from 'aws-lambda'
 import { mockClient } from 'aws-sdk-client-mock'
 import dayjs from 'dayjs'
 import { readFileSync } from 'fs'
-import fetch, { Response } from 'node-fetch'
+import fetch, { type Response } from 'node-fetch'
 import { resolve } from 'path'
 import { handler } from '../src/metric_ingester'
 

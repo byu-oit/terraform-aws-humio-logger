@@ -49,7 +49,7 @@
     "aws-sdk-client-mock": "^1.0.0",
     "cpy-cli": "^4.1.0",
     "eslint": "^8.32.0",
-    "eslint-config-standard-with-typescript": "^22.0.0",
+    "eslint-config-standard-with-typescript": "^34.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.2.4",
     "eslint-plugin-promise": "^6.0.0",

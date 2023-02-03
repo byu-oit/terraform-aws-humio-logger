@@ -1,11 +1,11 @@
-import { Context } from 'aws-lambda'
+import { type Context } from 'aws-lambda'
 import env from 'env-var'
 import {
   CloudWatchClient,
   GetMetricStatisticsCommand,
-  GetMetricStatisticsCommandOutput
+  type GetMetricStatisticsCommandOutput
 } from '@aws-sdk/client-cloudwatch'
-import { ResponseMetadata } from '@aws-sdk/types'
+import { type ResponseMetadata } from '@aws-sdk/types'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { logger } from './logger'

@@ -1,4 +1,4 @@
-import { CloudWatchLogsEvent } from 'aws-lambda'
+import { type CloudWatchLogsEvent } from 'aws-lambda'
 import pick from 'lodash.pick'
 import { decode, ingest, parseMessage } from './events'
 import { logger } from './logger'

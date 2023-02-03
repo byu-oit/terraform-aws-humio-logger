@@ -1,10 +1,10 @@
-import { CloudWatchLogsEvent } from 'aws-lambda'
-import fetch, { Response } from 'node-fetch'
+import { type CloudWatchLogsEvent } from 'aws-lambda'
+import fetch, { type Response } from 'node-fetch'
 import { gunzipSync } from 'zlib'
 import { url, token } from './env'
 import { logger } from './logger'
 import { endMatcher, reportMatcher, startMatcher, stdMatcher } from './rx'
-import { CloudWatchLogsDecodedData } from 'aws-lambda/trigger/cloudwatch-logs'
+import { type CloudWatchLogsDecodedData } from 'aws-lambda/trigger/cloudwatch-logs'
 
 const headers = {
   'Content-Type': 'application/json',
