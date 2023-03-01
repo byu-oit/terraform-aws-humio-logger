@@ -67,6 +67,6 @@
     "dayjs": "^1.11.4",
     "env-var": "^7.3.0",
     "lodash.pick": "^4.4.0",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^3.2.9"
   }
 }
