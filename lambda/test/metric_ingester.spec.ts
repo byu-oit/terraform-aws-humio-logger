@@ -2,6 +2,7 @@ import { CloudWatchClient, GetMetricDataCommand, StatusCode } from '@aws-sdk/cli
 import { InvokeCommand, LambdaClient } from '@aws-sdk/client-lambda'
 import { type Context } from 'aws-lambda'
 import { mockClient } from 'aws-sdk-client-mock'
+import 'aws-sdk-client-mock-jest'
 import dayjs from 'dayjs'
 import { readFileSync } from 'fs'
 import fetch, { type Response } from 'node-fetch'

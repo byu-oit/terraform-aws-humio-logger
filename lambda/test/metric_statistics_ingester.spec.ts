@@ -1,5 +1,6 @@
 import { CloudWatchClient, GetMetricStatisticsCommand } from '@aws-sdk/client-cloudwatch'
 import { mockClient } from 'aws-sdk-client-mock'
+import 'aws-sdk-client-mock-jest'
 import { type Context } from 'aws-lambda'
 import dayjs from 'dayjs'
 import { readFileSync } from 'fs'
