@@ -45,7 +45,7 @@
     "@types/lodash.pick": "^4.4.7",
     "@types/node": "^18.0.6",
     "@types/node-fetch": "^2.6.2",
-    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
     "aws-sdk-client-mock": "^2.0.1",
     "aws-sdk-client-mock-jest": "^2.0.1",
     "cpy-cli": "^4.1.0",
