@@ -17,12 +17,18 @@ information.
 > endpoints for convenience. It is recommended that you only use the prd endpoint (even for deployments of dev
 > resources) because it is a stable endpoint.
 
-### Example
+### Example with Fargate Module
 
 ```hcl
 module "acs" {
   source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
   vpc_vpn_to_campus = true
+}
+
+data "aws_cloudwatch_log_group" "my_fargate_api" {
+  # Ensures the cloudwatch log group is there
+  depends_on = [module.my_fargate_api]
+  name       = "fargate/${local.name}-${var.env}"
 }
 
 module "humio_logger" {
@@ -35,6 +41,9 @@ module "humio_logger" {
   humio_lambda_role_permissions_boundary = module.acs.role_permissions_boundary.arn
   vpc_id                                 = module.acs.vpc.id
   subnet_ids                             = module.acs.private_subnet_ids
+  logs_subscriptions = [
+    data.aws_cloudwatch_log_group.my_fargate_api.name
+  ]
 }
 ```
 
