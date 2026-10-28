@@ -65,7 +65,7 @@
     "@aws-sdk/client-cloudwatch": "^3.350.0",
     "@aws-sdk/client-lambda": "^3.350.0",
     "@byu-oit/logger": "^0.3.14",
-    "dayjs": "^1.11.4",
+    "dayjs": "^1.11.9",
     "env-var": "^7.3.0",
     "lodash.pick": "^4.4.0",
     "node-fetch": "^2.6.9"
