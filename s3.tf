@@ -1,3 +1,4 @@
+# trivy:ignore:AWS-0090 trivy:ignore:AWS-0132
 resource "aws_s3_bucket" "cloudwatch2humio_source_code_bucket" {
   count  = local.create_source_storage ? 1 : 0
   bucket = local.bucket_name
@@ -20,6 +21,16 @@ resource "aws_s3_bucket" "cloudwatch2humio_source_code_bucket" {
       }
     }
   }
+}
+
+resource "aws_s3_bucket_public_access_block" "source_code" {
+  count  = local.create_source_storage ? 1 : 0
+  bucket = aws_s3_bucket.cloudwatch2humio_source_code_bucket[0].id
+
+  block_public_acls       = true
+  ignore_public_acls      = true
+  block_public_policy     = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_object" "cloudwatch2humio_source_code_object" {
