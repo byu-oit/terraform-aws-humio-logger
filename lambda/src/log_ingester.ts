@@ -11,6 +11,11 @@ import { logGroupMatcher } from './rx'
 export async function handler (event: CloudWatchLogsEvent): Promise<void> {
   const decodedEvent = decode(event)
 
+  logger.info({
+    batchSize: decodedEvent.logEvents.length,
+    logGroup: decodedEvent.logGroup
+  }, 'CloudWatch Logs batch size for log group')
+
   logger.debug({ event: decodedEvent }, 'Event from CloudWatch Logs')
 
   // Extract the general attributes from the event batch
