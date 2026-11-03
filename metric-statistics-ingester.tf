@@ -1,3 +1,4 @@
+# trivy:ignore:AWS-0066
 resource "aws_lambda_function" "humio_cloudwatch_metric_statistics_ingester" {
   count            = local.create_metric_statistics_ingester ? 1 : 0
   depends_on       = [aws_iam_role.humio_cloudwatch_role, data.aws_s3_bucket_object.cloudwatch2humio_source_code_object]
@@ -36,6 +37,7 @@ resource "aws_lambda_permission" "humio_cloudwatch_metric_statistics_ingester_pe
   source_arn    = aws_cloudwatch_event_rule.metric_statistics_ingester_schedule[0].arn
 }
 
+# trivy:ignore:AWS-0017
 resource "aws_cloudwatch_log_group" "humio_cloudwatch_metric_statistics_ingester_log_group" {
   count             = local.create_metric_statistics_ingester ? 1 : 0
   name              = "/aws/lambda/${aws_lambda_function.humio_cloudwatch_metric_statistics_ingester[0].function_name}"
