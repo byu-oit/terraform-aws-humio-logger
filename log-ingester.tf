@@ -22,7 +22,7 @@ resource "aws_lambda_function" "humio_cloudwatch_log_ingester" {
   handler     = "lib/log_ingester.handler"
   memory_size = 128
   role        = aws_iam_role.humio_cloudwatch_role.arn
-  runtime     = "nodejs16.x"
+  runtime     = "nodejs24.x"
   timeout     = 300
 }
 
