@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">= 0.14"
+  required_version = ">= 1.0"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.15"
+      version = ">= 6.21"
     }
   }
 }
@@ -20,7 +20,7 @@ variable "humio_token" {
 }
 
 module "acs" {
-  source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v3.5.0"
+  source            = "github.com/byu-oit/terraform-aws-acs-info?ref=v4.1.0"
   vpc_vpn_to_campus = true
 }
 
