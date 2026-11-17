@@ -32,7 +32,7 @@ data "aws_cloudwatch_log_group" "my_fargate_api" {
 }
 
 module "humio_logger" {
-  source                                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=v3.0.6"
+  source                                 = "github.com/byu-oit/terraform-aws-humio-logger?ref=v3.1.0"
   app_name                               = "humio-logger-ci-dev"
   humio_protocol                         = "HTTP"
   # Only the http protocol is supported for the ACS-provided Humio Endpoints (as of May 26, 2022)
@@ -49,9 +49,13 @@ module "humio_logger" {
 
 ## Requirements
 
-* Terraform version 0.14 or greater
-* AWS provider version 4.15 or greater
+* Terraform version 1.0 or greater
+* AWS provider version 5.77 or greater
 * BYU-ACS version 3.5.0 or greater
+
+The default `nodejs24.x` runtime requires AWS provider 6.21 or newer. Consumers that are still on AWS provider 5 can
+set `lambda_runtime = "nodejs22.x"`; this keeps the managed Lambdas on a supported Node.js release while the consumer
+completes its provider 6 migration.
 
 ## Inputs
 
@@ -63,6 +67,7 @@ module "humio_logger" {
 | humio_ingest_token (sensitive)         | string       | The value of the ingest token for the repository from your Humio account to ship log/metric events to.                                                                                                                                                                                                                                                                      | ""              |
 | humio_lambda_log_retention             | number       | Number of days to retain CloudWatch logs from the Humio Lambda functions.                                                                                                                                                                                                                                                                                                   | 1               |
 | humio_lambda_role_permissions_boundary | string       | The ARN of the role permissions boundary to attach to the Humio Lambda role.                                                                                                                                                                                                                                                                                                | ""              |
+| lambda_runtime                         | string       | Supported Node.js runtime for the Humio Lambda functions. Use `nodejs22.x` with AWS provider 5; `nodejs24.x` requires AWS provider 6.21 or newer.                                                                                                                                                                                                                            | nodejs24.x      |
 | logs_subscriptions                     | list(string) | Subscribes the log ingester lambda to each log group listed.                                                                                                                                                                                                                                                                                                                | []              |
 | metric_conf                            | string       | A stringified metric configuration to pass into the [CloudWatch GetMetricData command](https://docs.aws.amazon.com/cli/latest/reference/cloudwatch/get-metric-data.html). This configuration will be uploaded to the s3 bucket. An example configuration is located in the `examples/static` directory of this repository.                                                  | ""              |
 | metric_statistics_conf                 | string       | A stringified list of metric statistics configurations that will each be passed into the [CloudWatch GetMetricStatistics command](https://docs.aws.amazon.com/cli/latest/reference/cloudwatch/get-metric-statistics.html). This configuration will be uploaded to the s3 bucket. An example configuration is located in the `examples/static` directory of this repository. | ""              |

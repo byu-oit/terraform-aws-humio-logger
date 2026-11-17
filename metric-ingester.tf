@@ -24,7 +24,7 @@ resource "aws_lambda_function" "humio_cloudwatch_metric_ingester" {
   handler     = "lib/metric_ingester.handler"
   memory_size = 128
   role        = aws_iam_role.humio_cloudwatch_role.arn
-  runtime     = "nodejs24.x"
+  runtime     = var.lambda_runtime
   timeout     = 300
 }
 

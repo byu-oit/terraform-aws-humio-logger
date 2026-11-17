@@ -32,6 +32,17 @@ variable "humio_lambda_log_retention" {
   default     = 1
 }
 
+variable "lambda_runtime" {
+  type        = string
+  description = "Supported Node.js runtime for the Humio Lambda functions. Use nodejs22.x with AWS provider 5; nodejs24.x requires AWS provider 6.21 or newer."
+  default     = "nodejs24.x"
+
+  validation {
+    condition     = contains(["nodejs22.x", "nodejs24.x"], var.lambda_runtime)
+    error_message = "The lambda_runtime variable must be nodejs22.x or nodejs24.x."
+  }
+}
+
 variable "humio_lambda_role_permissions_boundary" {
   type        = string
   description = "The ARN of the role permissions boundary to attach to the Humio Lambda role."
