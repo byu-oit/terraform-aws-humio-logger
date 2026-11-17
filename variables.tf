@@ -39,7 +39,7 @@ variable "lambda_runtime" {
 
   validation {
     condition     = contains(["nodejs22.x", "nodejs24.x"], var.lambda_runtime)
-    error_message = "lambda_runtime must be nodejs22.x or nodejs24.x."
+    error_message = "The lambda_runtime variable must be nodejs22.x or nodejs24.x."
   }
 }
 
