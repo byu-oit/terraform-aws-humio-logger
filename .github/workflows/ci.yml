@@ -50,6 +50,25 @@ jobs:
         working-directory: "./"
         run: terraform fmt -check -recursive
 
+  provider5-compatibility:
+    name: Validate AWS provider 5 compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Terraform Setup
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: '1.x.x'
+
+      - name: Terraform Init
+        working-directory: "./examples/provider5-compat"
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        working-directory: "./examples/provider5-compat"
+        run: terraform validate
+
   plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
