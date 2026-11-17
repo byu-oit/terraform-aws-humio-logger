@@ -44,7 +44,7 @@ jobs:
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: '1.1.x'
+          terraform_version: '1.x.x'
 
       - name: Terraform Format
         working-directory: "./"
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        terraform: ['0.14.x', '0.15.x', '1.0.x', '1.1.x', '1.2.x']
+        terraform: ['1.0.x', '1.x.x']
       fail-fast: false
     permissions:
       contents: read
@@ -84,7 +84,7 @@ jobs:
 
       - name: Terraform Plan
         working-directory: ${{ env.tf_working_dir }}
-        run: terraform plan.tfplan -var 'humio_token=fake-token' -input=false -out=plan.tfplan
+        run: terraform plan -var 'humio_token=fake-token' -input=false -out=plan.tfplan
 
       - name: Comment Terraform Plan
         uses: byu-oit/github-action-tf-plan-comment@v1

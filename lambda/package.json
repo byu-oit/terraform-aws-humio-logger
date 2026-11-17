@@ -4,7 +4,7 @@
   "description": "Infrastructure to watch a CloudWatch log groups and forward their logs to a Humio log repository.",
   "main": "lib/index.js",
   "engines": {
-    "node": ">=16"
+    "node": ">=24"
   },
   "directories": {
     "example": "examples",
