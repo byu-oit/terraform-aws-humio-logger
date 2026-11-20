@@ -1,3 +1,4 @@
+# trivy:ignore:AWS-0066
 resource "aws_lambda_function" "humio_cloudwatch_log_ingester" {
   count            = local.create_log_ingester ? 1 : 0
   depends_on       = [aws_iam_role.humio_cloudwatch_role, data.aws_s3_bucket_object.cloudwatch2humio_source_code_object]
@@ -26,13 +27,22 @@ resource "aws_lambda_function" "humio_cloudwatch_log_ingester" {
   timeout     = 300
 }
 
+data "aws_partition" "current" {}
+
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}
+
 resource "aws_lambda_permission" "humio_cloudwatch_logs_ingester_permission" {
-  count         = local.create_log_ingester ? 1 : 0
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.humio_cloudwatch_log_ingester[0].function_name
-  principal     = "logs.amazonaws.com"
+  for_each       = local.create_log_ingester ? toset(var.logs_subscriptions) : toset([])
+  action         = "lambda:InvokeFunction"
+  function_name  = aws_lambda_function.humio_cloudwatch_log_ingester[0].function_name
+  principal      = "logs.amazonaws.com"
+  source_account = data.aws_caller_identity.current.account_id
+  source_arn     = "arn:${data.aws_partition.current.partition}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:${each.value}:*"
 }
 
+# trivy:ignore:AWS-0017
 resource "aws_cloudwatch_log_group" "humio_cloudwatch_logs_ingester_log_group" {
   count             = local.create_log_ingester ? 1 : 0
   name              = "/aws/lambda/${aws_lambda_function.humio_cloudwatch_log_ingester[0].function_name}"

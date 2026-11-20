@@ -5,4 +5,5 @@ resource "aws_cloudwatch_log_subscription_filter" "humio_cloudwatch_log_ingester
   filter_pattern  = ""
   distribution    = "ByLogStream"
   destination_arn = aws_lambda_function.humio_cloudwatch_log_ingester[0].arn
+  depends_on      = [aws_lambda_permission.humio_cloudwatch_logs_ingester_permission]
 }
